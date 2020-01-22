@@ -1,0 +1,109 @@
+//CS 330 Notes
+**Chapter I**
+Introduction
+
+Pseudocode is intended to be adaptable to any implementation language.
+  In pseudo, loop ranges are listed like 1..n, where the loop really runs 1, 2,..., n-1.
+Game implementation languages
+  AI code: C(earlier), C++(later)
+  Mobile platforms: Swift(iOS), Java
+  Scripting: Lisp, Lua, Python
+  Flash: ActionScript
+  Time critical code: C, C++
+
+**Chapter II**
+Game AI
+
+Complexity fallacy
+  Complex AI doesn't always mean that the gameplay is better
+    Simple AI can produce good characters and gameplay
+    Complex AI can produce bad characters and gameplay
+  A practical approach to game AI
+    Choose the right character behaviors for the game
+    Choosing the right AI should follow
+  A great example of game AI is the Pac-Man ghost AI
+    There are three ghost behavior states:
+      Normal
+      Back Off
+      Flee
+    These behaviors are part of a state machine
+    The ghosts exhibit the following behaviors in the Normal state:
+      Blinky: at junction, choose Pac-Man as target
+      Inky: at junction, choose a fixed offset from Pac-Man
+      Pinky: at junction, choose a spot four spaces ahead of Pac-Man
+      Clyde: at junction, choose either Pac-Man or the lower-left corner
+    The ghosts move straight otherwise
+    In the Flee state, the ghosts move straight
+      When at a junction, they will choose a direction opposite of Pac-Man
+  The game's AI is very easy to implement
+  Take into account "the perception window"
+    In a Star Wars game - or any game - "cannon fodder" enemies will not be in
+    the game for very long. The protagonist will simply kill and dispose of
+    them, so complex AI is unnecessary.
+  Think also about the purpose of a character in the narrative when making the
+  characters' AI
+
+Changes in Character behavior
+  Changes in behavior are more noticeable than the actual behavior
+  Behavior changes should occur at expected moments
+  Untriggered behavior changes suggest bad or unfair AI
+  Textbook suggests two behaviors for incidental characters: normal and player-
+  spotted
+
+The Kind of AI in Games
+  Game AI and academic AI are different
+    How much software engineering quality is expected
+    Whether "tricks" and "hacks" are appropriate
+  Game AI is concerned with just making the AI work
+  Approaches to implementing game AI
+    Hacks
+    Heuristics
+    Algorithms
+  Hacks
+    Psychological approach to academic AI is known as "behaviorism"
+    Behaviorism is alive and well in game AI
+    Game AI may not be academic AI
+  Heuristics
+    A heuristic is a rule of thumb, an approximate solution that might work in
+    many situations but is unlikely to work in all
+    Examples
+      Ghosts moving towards player's current position in Pac-Man
+      Moving slightly into weapon range in Warcraft
+      Represent complex combat capabilities as integers in Afrika Korps
+    Common game AI Heuristics
+      Most constrained
+        Choosing an item that is appropriate in the fewest situations
+      Most difficult first
+        Choosing the most difficult action or plan first
+      Most promising first
+        Choosing the action that is most likely to succeed
+          i.e., blowing up the Death Star with the X-Wing's torpedoes instead of
+          taking out all the main defenses first
+  Algorithms
+    In general, an algorithm is an ordered set of unambiguous, executable steps
+    that define a terminating activity
+    In game AI, algorithms are just for making a game AI work
+
+Speed and Memory
+  Processor issues
+    Game machine limits impose constraints on game AI
+    Trends
+      Graphics hardware improving steadily
+      Computation moved from CPUs to GPUs, e.g. animation and collision detection
+      AI share of processor typically 20-50%
+      C++ for game AI giving way to C#, Swift, Java, or scripting
+    Realities
+      AI can be computationally expensive
+      Implementation of AI must split its computation into small but useful
+      increments to allow other game code to execute
+  Frames and rates
+    Frame: single update of the screen image
+    Frame processing
+      Visibly moving characters and objects may need their location and orientation
+      recalculated for each frame
+      Some AI processes, like long-term decision making, may not need to be
+      updated
+    Frame rates
+      Modern games: 30-50 fps
+      AI code in semi-automated forces systems: 5 times a second
+        Pilot-induced oscillation in games can occur due to framerate issues
