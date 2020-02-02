@@ -6,8 +6,6 @@ Date: January 28, 2020
 Email: crh0043@uah.edu
 ]]
 
-
-
 local balls={}
 local deltaX= 10
 local deltaY= -deltaX
