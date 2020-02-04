@@ -74,19 +74,11 @@ for fields in f:lines() do
     elseif i == 2 then
       if v ~= "Weight" then
         ballRadius = tonumber(v)
-        ballRadius = ballRadius / 75
-      end
-    elseif i == 3 then
-      if v ~= "Disp" then
-        --This wasn't explained in the homework
+        ballRadius = ballRadius / 60
       end
     elseif i == 4 then
       if v ~= "Mileage" then
         speed = tonumber(v)
-      end
-    elseif i == 5 then
-      if v ~= "Fuel" then
-        --This wasn't explained in the homework
       end
     elseif i == 6 then
       if v ~= "Type" then
