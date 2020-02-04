@@ -1,6 +1,7 @@
 --[[
 Run with either the iPhone X or the iPad Pro. iPad Pro provides a larger screen to see the balls better.
 Author:   Cameron Howell
+
 Class:    CS571 Spring 2020
 Due Date: February 4, 2020
 Email:    crh0043@uah.edu
@@ -8,6 +9,10 @@ Email:    crh0043@uah.edu
 
 --Declarations for the csv file location AND the csv lua file for parsing the car.csv data
 local csv = require("csv")
+
+--**********************************************************************
+--NOTE: PLEASE CHANGE THIS PATH TO THE PATH OF THE CAR.CSV YOU ARE USING
+--**********************************************************************
 local f = csv.open("C:/Users/camer/OneDrive/Desktop/CSFiles/CS 571 Notes/Assignment_1/car.csv")
 
 local balls={}
@@ -50,7 +55,7 @@ local function createBall()
   ball.deltaX = ((speed / 3) * ((math.random(1,2)*2)-3))
   ball.deltaY = ((speed / 3) * ((math.random(1,2)*2)-3))
   ball.ballRadius = ballRadius
-  local text = display.newText(carName, ball.x, ball.y, native.systemFont, 30)
+  local text = display.newText(carName, ball.x, ball.y, native.systemFont, 40)
   ball.text = text
   table.insert(balls, ball)
   ball:addEventListener("touch", clearBall)
