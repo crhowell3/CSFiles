@@ -9,11 +9,7 @@ Email:    crh0043@uah.edu
 
 --Declarations for the csv file location AND the csv lua file for parsing the car.csv data
 local csv = require("csv")
-
---**********************************************************************
---NOTE: PLEASE CHANGE THIS PATH TO THE PATH OF THE CAR.CSV YOU ARE USING
---**********************************************************************
-local f = csv.open("C:/Users/camer/OneDrive/Desktop/CSFiles/CS 571 Notes/Assignment_1/car.csv")
+local f = csv.open(system.pathForFile( "car.csv", system.ResourceDirectory))
 
 local balls={}
 local ballRadius = 0
@@ -38,7 +34,7 @@ and padded to prevent a ball from being spawned offscreen, which would cause it 
 the edge. The randomness of the ball direction is determined by multiplying the speed by either a
 positive or negative 1 at random.]]
 local function createBall()
-  local ball = display.newCircle( math.random(ballRadius + 2, display.contentWidth - ballRadius - 2), math.random(ballRadius + 2, display.contentHeight - ballRadius - 2), ballRadius )
+  local ball = display.newCircle( math.random(ballRadius + 5, display.contentWidth - ballRadius - 5), math.random(ballRadius + 5, display.contentHeight - ballRadius - 5), ballRadius )
   if carType == "Small" then
     ball:setFillColor(0, 1, 0)
   elseif carType == "Sporty" then
