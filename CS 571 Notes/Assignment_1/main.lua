@@ -33,7 +33,7 @@ and padded to prevent a ball from being spawned offscreen, which would cause it 
 the edge. The randomness of the ball direction is determined by multiplying the speed by either a
 positive or negative 1 at random.]]
 local function createBall()
-  local ball = display.newCircle( math.random(ballRadius + 2, display.contentWidth - ballRadius - 2), math.random(ballRadius + 2, display.contentHeight - ballRadius - 2), ballRadius )
+  local ball = display.newCircle( math.random(ballRadius + 5, display.contentWidth - ballRadius - 5), math.random(ballRadius + 5, display.contentHeight - ballRadius - 5), ballRadius )
   if carType == "Small" then
     ball:setFillColor(0, 1, 0)
   elseif carType == "Sporty" then
@@ -50,7 +50,7 @@ local function createBall()
   ball.deltaX = ((speed / 3) * ((math.random(1,2)*2)-3))
   ball.deltaY = ((speed / 3) * ((math.random(1,2)*2)-3))
   ball.ballRadius = ballRadius
-  local text = display.newText(carName, ball.x, ball.y, native.systemFont, 30)
+  local text = display.newText(carName, ball.x, ball.y, native.systemFont, 40)
   ball.text = text
   table.insert(balls, ball)
   ball:addEventListener("touch", clearBall)
@@ -69,7 +69,7 @@ for fields in f:lines() do
     elseif i == 2 then
       if v ~= "Weight" then
         ballRadius = tonumber(v)
-        ballRadius = ballRadius / 75
+        ballRadius = ballRadius / 60
       end
     elseif i == 3 then
       if v ~= "Disp" then
