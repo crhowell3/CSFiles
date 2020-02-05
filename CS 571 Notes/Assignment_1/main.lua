@@ -8,7 +8,7 @@ Email:    crh0043@uah.edu
 
 --Declarations for the csv file location AND the csv lua file for parsing the car.csv data
 local csv = require("csv")
-local f = csv.open("C:/Users/camer/OneDrive/Desktop/CSFiles/CS 571 Notes/Assignment_1/car.csv")
+local f = csv.open(system.pathForFile( "car.csv", system.ResourceDirectory))
 
 local balls={}
 local ballRadius = 0
