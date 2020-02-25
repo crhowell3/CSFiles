@@ -1,0 +1,61 @@
+Car,Weight,Disp,Mileage,Fuel,Type
+Eagle Summit 4,2560,97,33,3.030303,Small
+Ford Escort 4,2345,114,33,3.030303,Small
+Ford Festiva 4,1845,81,37,2.702703,Small
+Honda Civic 4,2260,91,32,3.125,Small
+Mazda Protege 4,2440,113,32,3.125,Small
+Mercury Tracer 4,2285,97,26,3.846154,Small
+Nissan Sentra 4,2275,97,33,3.030303,Small
+Pontiac LeMans 4,2350,98,28,3.571429,Small
+Subaru Loyale 4,2295,109,25,4,Small
+Subaru Justy 3,1900,73,34,2.941176,Small
+Toyota Corolla 4,2390,97,29,3.448276,Small
+Toyota Tercel 4,2075,89,35,2.857143,Small
+Volkswagen Jetta 4,2330,109,26,3.846154,Small
+Chevrolet Camaro V8,3320,305,20,5,Sporty
+Dodge Daytona,2885,153,27,3.703704,Sporty
+Ford Mustang V8,3310,302,19,5.263158,Sporty
+Ford Probe,2695,133,30,3.333333,Sporty
+Honda Civic CRX Si 4,2170,97,33,3.030303,Sporty
+Honda Prelude Si 4WS 4,2710,125,27,3.703704,Sporty
+Nissan 240SX 4,2775,146,24,4.166667,Sporty
+Plymouth Laser,2840,107,26,3.846154,Sporty
+Subaru XT 4,2485,109,28,3.571429,Sporty
+Audi 80 4,2670,121,27,3.703704,Compact
+Buick Skylark 4,2640,151,23,4.347826,Compact
+Chevrolet Beretta 4,2655,133,26,3.846154,Compact
+Chrysler Le Baron V6,3065,181,25,4,Compact
+Ford Tempo 4,2750,141,24,4.166667,Compact
+Honda Accord 4,2920,132,26,3.846154,Compact
+Mazda 626 4,2780,133,24,4.166667,Compact
+Mitsubishi Galant 4,2745,122,25,4,Compact
+Mitsubishi Sigma V6,3110,181,21,4.761905,Compact
+Nissan Stanza 4,2920,146,21,4.761905,Compact
+Oldsmobile Calais 4,2645,151,23,4.347826,Compact
+Peugeot 405 4,2575,116,24,4.166667,Compact
+Subaru Legacy 4,2935,135,23,4.347826,Compact
+Toyota Camry 4,2920,122,27,3.703704,Compact
+Volvo 240 4,2985,141,23,4.347826,Compact
+Acura Legend V6,3265,163,20,5,Medium
+Buick Century 4,2880,151,21,4.761905,Medium
+Chrysler Le Baron Coupe,2975,153,22,4.545455,Medium
+Chrysler New Yorker V6,3450,202,22,4.545455,Medium
+Eagle Premier V6,3145,180,22,4.545455,Medium
+Ford Taurus V6,3190,182,22,4.545455,Medium
+Ford Thunderbird V6,3610,232,23,4.347826,Medium
+Hyundai Sonata 4,2885,143,23,4.347826,Medium
+Mazda 929 V6,3480,180,21,4.761905,Medium
+Nissan Maxima V6,3200,180,22,4.545455,Medium
+Oldsmobile Cutlass Ciera 4,2765,151,21,4.761905,Medium
+Oldsmobile Cutlass Supreme V6,3220,189,21,4.761905,Medium
+Toyota Cressida 6,3480,180,23,4.347826,Medium
+Buick Le Sabre V6,3325,231,23,4.347826,Large
+Chevrolet Caprice V8,3855,305,18,5.555556,Large
+Ford LTD Crown Victoria V8,3850,302,20,5,Large
+Chevrolet Lumina APV V6,3195,151,18,5.555556,Van
+Dodge Grand Caravan V6,3735,202,18,5.555556,Van
+Ford Aerostar V6,3665,182,18,5.555556,Van
+Mazda MPV V6,3735,181,19,5.263158,Van
+Mitsubishi Wagon 4,3415,143,20,5,Van
+Nissan Axxess 4,3185,146,20,5,Van
+Nissan Van 4,3690,146,19,5.263158,Van
