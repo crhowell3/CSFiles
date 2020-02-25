@@ -1,7 +1,6 @@
 --[[
 Run with either the iPhone X or the iPad Pro. iPad Pro provides a larger screen to see the balls better.
 Author:   Cameron Howell
-
 Class:    CS571 Spring 2020
 Due Date: February 4, 2020
 Email:    crh0043@uah.edu
@@ -10,6 +9,7 @@ Email:    crh0043@uah.edu
 --Declarations for the csv file location AND the csv lua file for parsing the car.csv data
 local csv = require("csv")
 local f = csv.open(system.pathForFile( "car.csv", system.ResourceDirectory))
+local widget = require("widget")
 
 local balls={}
 local ballRadius = 0
@@ -56,6 +56,115 @@ local function createBall()
   table.insert(balls, ball)
   ball:addEventListener("touch", clearBall)
 end
+
+local function onSwitchPress(event)
+  local switch = event.target
+end
+
+--CHECKBOX BEGIN
+local options = {
+  width = 99,
+  height = 94,
+  numFrames = 2,
+  sheetContentWidth = 198,
+  sheetContentHeight = 94
+}
+local checkboxSheet = graphics.newImageSheet( "checkbox.png", options )
+local checkbox = widget.newSwitch(
+  {
+    left = 250,
+    top = 200,
+    style = "checkbox",
+    id = "Checkbox",
+    width = 100,
+    height = 100,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+--CHECKBOX END
+
+--RADIO BEGIN
+local radioGroup = display.newGroup()
+
+local options = {
+  width = 100,
+  height = 99,
+  numFrames = 2,
+  sheetContentWidth = 200,
+  sheetContentHeight = 99
+}
+
+local radioSheet = graphics.newImageSheet("radio.png", options)
+local radioButton1 = widget.newSwitch(
+  {
+    left = 350,
+    top = 200,
+    style = "radio",
+    id = "RadioButton1",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = radioSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+radioGroup:insert(radioButton1)
+
+local radioButton2 = widget.newSwitch(
+  {
+    left = 450,
+    top = 200,
+    style = "radio",
+    id = "RadioButton2",
+    width = 100,
+    height = 100,
+    onPress = onSwitchPress,
+    sheet = radioSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+radioGroup:insert(radioButton2)
+--RADIO END
+
+--TEXTBOX BEGIN
+local defaultBox
+local function textListener(event)
+    if ( event.phase == "began") then
+      --begin editing
+    elseif (event.phase == "ended" or event.phase == "submitted") then
+      --after editing
+    elseif (event.phase == "editing") then
+      --while editing
+    end
+  end
+  defaultBox = native.newTextBox(140, 70, 280, 140)
+  defaultBox.isEditable = true
+  defaultBox:addEventListener("userInput", textListener)
+  defaultBox.isFontSizeScaled = true
+  defaultBox.size = 20
+--TEXTBOX END
+
+--SLIDER BEGIN
+local function sliderListener(event)
+
+end
+
+local slider = widget.newSlider(
+  {
+    top = 200,
+    left = 50,
+    width = 400,
+    value = 10,
+    listener = sliderListener
+  }
+)
+--SLIDER END
 
 --[[This massive for loop opens the csv file, checks the values at each x,y, and then
 sets those values to a variable that will define the ball. After reading through
