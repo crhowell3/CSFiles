@@ -1,8 +1,8 @@
 --[[
-Run with either the iPhone X or the iPad Pro. iPad Pro provides a larger screen to see the balls better.
+***BUILT ON THE IPHONE X***
 Author:   Cameron Howell
 Class:    CS571 Spring 2020
-Due Date: February 4, 2020
+Due Date: February 26, 2020
 Email:    crh0043@uah.edu
 ]]
 
@@ -16,6 +16,10 @@ local ballRadius = 0
 local carType = ""
 local carName = ""
 local speed = 0
+
+--Creates the rounded rectangle GUI component
+local menu = display.newRoundedRect( display.contentWidth / 2, display.contentHeight - 375, display.contentWidth, 750, 25)
+menu:setFillColor(0.2, 0.2, 0.2)
 
 --[[The clearBall function is event-based. When a ball object is touched, this event is triggered.
 The ball object is first removed from the balls table, then removed from the screen. The
@@ -34,7 +38,7 @@ and padded to prevent a ball from being spawned offscreen, which would cause it 
 the edge. The randomness of the ball direction is determined by multiplying the speed by either a
 positive or negative 1 at random.]]
 local function createBall()
-  local ball = display.newCircle( math.random(ballRadius + 5, display.contentWidth - ballRadius - 5), math.random(ballRadius + 5, display.contentHeight - ballRadius - 5), ballRadius )
+  local ball = display.newCircle( math.random(ballRadius + 5, display.contentWidth - ballRadius - 5), math.random(ballRadius + 5, display.contentHeight - ballRadius - 750), ballRadius )
   if carType == "Small" then
     ball:setFillColor(0, 1, 0)
   elseif carType == "Sporty" then
@@ -70,20 +74,113 @@ local options = {
   sheetContentHeight = 94
 }
 local checkboxSheet = graphics.newImageSheet( "checkbox.png", options )
-local checkbox = widget.newSwitch(
+local checkbox1 = widget.newSwitch(
   {
-    left = 250,
-    top = 200,
+    left = 50,
+    top = display.contentHeight - 700,
     style = "checkbox",
-    id = "Checkbox",
+    id = "Small",
     width = 100,
     height = 100,
+    initialSwitchState = true,
     onPress = onSwitchPress,
     sheet = checkboxSheet,
     frameOff = 1,
     frameOn = 2
   }
 )
+local checkText1 = display.newText("Small", checkbox1.x + 50, checkbox1.y, native.systemFont, 55)
+checkText1.anchorX = 0
+
+local checkbox2 = widget.newSwitch(
+  {
+    left = 50,
+    top = display.contentHeight - 600,
+    style = "checkbox",
+    id = "Sporty",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+local checkText2 = display.newText("Sporty", checkbox2.x + 50, checkbox2.y, native.systemFont, 55)
+checkText2.anchorX = 0
+
+local checkbox3 = widget.newSwitch(
+  {
+    left = 50,
+    top = display.contentHeight - 500,
+    style = "checkbox",
+    id = "Compact",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+local checkText3 = display.newText("Compact", checkbox3.x + 50, checkbox3.y, native.systemFont, 55)
+checkText3.anchorX = 0
+
+local checkbox4 = widget.newSwitch(
+  {
+    left = 50,
+    top = display.contentHeight - 400,
+    style = "checkbox",
+    id = "Medium",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+local checkText4 = display.newText("Medium", checkbox4.x + 50, checkbox4.y, native.systemFont, 55)
+checkText4.anchorX = 0
+
+local checkbox5 = widget.newSwitch(
+  {
+    left = 50,
+    top = display.contentHeight - 300,
+    style = "checkbox",
+    id = "Large",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+local checkText5 = display.newText("Large", checkbox5.x + 50, checkbox5.y, native.systemFont, 55)
+checkText5.anchorX = 0
+
+local checkbox6 = widget.newSwitch(
+  {
+    left = 50,
+    top = display.contentHeight - 200,
+    style = "checkbox",
+    id = "Van",
+    width = 100,
+    height = 100,
+    initialSwitchState = true,
+    onPress = onSwitchPress,
+    sheet = checkboxSheet,
+    frameOff = 1,
+    frameOn = 2
+  }
+)
+local checkText6 = display.newText("Van", checkbox6.x + 50, checkbox6.y, native.systemFont, 55)
+checkText6.anchorX = 0
 --CHECKBOX END
 
 --RADIO BEGIN
@@ -100,8 +197,8 @@ local options = {
 local radioSheet = graphics.newImageSheet("radio.png", options)
 local radioButton1 = widget.newSwitch(
   {
-    left = 350,
-    top = 200,
+    left = 450,
+    top = display.contentHeight - 700,
     style = "radio",
     id = "RadioButton1",
     width = 100,
@@ -114,11 +211,13 @@ local radioButton1 = widget.newSwitch(
   }
 )
 radioGroup:insert(radioButton1)
+local radioText1 = display.newText("Weight", radioButton1.x + 50, radioButton1.y, native.systemFont, 55)
+radioText1.anchorX = 0
 
 local radioButton2 = widget.newSwitch(
   {
-    left = 450,
-    top = 200,
+    left = 750,
+    top = display.contentHeight - 700,
     style = "radio",
     id = "RadioButton2",
     width = 100,
@@ -130,6 +229,8 @@ local radioButton2 = widget.newSwitch(
   }
 )
 radioGroup:insert(radioButton2)
+local radioText2 = display.newText("Mileage", radioButton2.x + 50, radioButton2.y, native.systemFont, 55)
+radioText2.anchorX = 0
 --RADIO END
 
 --TEXTBOX BEGIN
@@ -143,11 +244,12 @@ local function textListener(event)
       --while editing
     end
   end
-  defaultBox = native.newTextBox(140, 70, 280, 140)
+  defaultBox = native.newTextField(475, display.contentHeight - 200, 600, 100)
+  defaultBox.anchorX = 0;
   defaultBox.isEditable = true
   defaultBox:addEventListener("userInput", textListener)
   defaultBox.isFontSizeScaled = true
-  defaultBox.size = 20
+  defaultBox.size = 50
 --TEXTBOX END
 
 --SLIDER BEGIN
@@ -157,9 +259,10 @@ end
 
 local slider = widget.newSlider(
   {
-    top = 200,
-    left = 50,
-    width = 400,
+    id = "min",
+    left = 475,
+    top = display.contentHeight - 550,
+    width = 600,
     value = 10,
     listener = sliderListener
   }
@@ -202,7 +305,7 @@ local function update()
     if ball.x + ball.deltaX > display.contentWidth - ball.ballRadius or ball.x + ball.deltaX < ballRadius then
       ball.deltaX = -ball.deltaX
     end
-    if ball.y + ball.deltaY > display.contentHeight - ball.ballRadius or ball.y + ball.deltaY < ballRadius then
+    if ball.y + ball.deltaY > display.contentHeight - ball.ballRadius - 750 or ball.y + ball.deltaY < ballRadius then
       ball.deltaY = -ball.deltaY
     end
     ball.text.x = ball.text.x + ball.deltaX
