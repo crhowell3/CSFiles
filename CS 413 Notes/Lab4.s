@@ -1,4 +1,4 @@
-@ Filename: Lab3.s
+@ Filename: Lab4.s
 @ Author:   Cameron Howell
 @ Email:    crh0043@uah.edu
 @ Class:    CS413-02 Spring 2020
@@ -6,20 +6,70 @@
 @ History:
 @    Date       Purpose of change
 @    ----       -----------------
-@   16-Feb-2020  Created the file
-@   20-Feb-2020  Finalized code
+@   5-Mar-2020  Created the file
+@   6-Mar-2020  Finalized code
 @
 @ Use these command to assemble, link, run and debug this program:
-@    as -o Lab3.o Lab3.s
-@    gcc -o Lab3 Lab3.o
-@    ./Lab3 ;echo $?
-@    gdb --args ./Lab3
+@    as -o Lab4.o Lab4.s
+@    gcc -o Lab4 Lab4.o -lwiringPi
+@    ./Lab4 ;echo $?
+@    gdb --args ./Lab4
+
+OUTPUT = 1                  @Used to set the selected GPIO pins to output only
 
 .equ READERROR, 0
 
 .global main
 
 main:
+
+  BL  wiringPiSetup
+  MOV r1, #-1
+  CMP r0, r1
+  BNE pin_init
+  LDR r0, =ErrMsg
+  BL  printf
+  B   myexit
+
+@********************
+pin_init:
+@********************
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #OUTPUT
+  BL  pinMode
+
+  LDR r0, =pin3
+  LDR r0, [r0]
+  MOV r1, #OUTPUT
+  BL  pinMode
+
+  LDR r0, =pin4
+  LDR r0, [r0]
+  MOV r1, #OUTPUT
+  BL  pinMode
+
+  LDR r0, =pin5
+  LDR r0, [r0]
+  MOV r1, #OUTPUT
+  BL  pinMode
+
+onStartFlash:               @Turns the red LED on for 5 seconds at the start of the program
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
 @********************
 prompt:                     @Displays the welcome message.
 @********************
@@ -191,36 +241,213 @@ change_dispense:
 
   LDR r2, =gum
   CMP r6, r2
+  BNE cr_disp
   LDREQ r1, =numGum
   LDREQ r1, [r1]
   SUBEQ r3, r1, #1
   LDREQ r1, =numGum
   STREQ r3, [r1, #0]
 
+  MOV r4, #0
+  MOV r5, #2
+red_Loop:                    @Flashes red LED for gum dispensed
+  CMP r4, r5
+  BGT red_Done
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  ADD r4, #1
+  B   red_Loop
+
+red_Done:
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+cr_disp:
   LDR r2, =cracker
   CMP r6, r2
+  BNE pe_disp
   LDREQ r1, =numCrackers
   LDREQ r1, [r1]
   SUBEQ r3, r1, #1
   LDREQ r1, =numCrackers
   STREQ r3, [r1, #0]
 
+  MOV r4, #0
+  MOV r5, #2
+green_Loop:                   @Flashes green LED for crackers dispensed
+  CMP r4, r5
+  BGT green_Done
+
+  LDR r0, =pin4
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin4
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  ADD r4, #1
+  B   green_Loop
+
+green_Done:
+  LDR r0, =pin4
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin4
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+pe_disp:
   LDR r2, =peanuts
   CMP r6, r2
+  BNE m_disp
   LDREQ r1, =numPeanuts
   LDREQ r1, [r1]
   SUBEQ r3, r1, #1
   LDREQ r1, =numPeanuts
   STREQ r3, [r1, #0]
 
+  MOV r4, #0
+  MOV r5, #2
+yellow_Loop:                    @Flashes yellow LED for peanuts dispensed
+  CMP r4, r5
+  BGT yellow_Done
+
+  LDR r0, =pin3
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin3
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  ADD r4, #1
+  B   yellow_Loop
+
+yellow_Done:
+  LDR r0, =pin3
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin3
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+m_disp:
   LDR r2, =mandms
   CMP r6, r2
+  BNE ch_ret
   LDREQ r1, =numMMs
   LDREQ r1, [r1]
   SUBEQ r3, r1, #1
   LDREQ r1, =numMMs
   STREQ r3, [r1, #0]
 
+  MOV r4, #0
+  MOV r5, #2
+blue_Loop:                    @Flashes blue LED for M&Ms dispensed
+  CMP r4, r5
+  BGT blue_Done
+
+  LDR r0, =pin5
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin5
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+  LDR r0, =delayMS_1
+  LDR r0, [r0]
+  BL  delay
+
+  ADD r4, #1
+  B   blue_Loop
+
+blue_Done:
+  LDR r0, =pin5
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin5
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
+
+ch_ret:
   SUB r1, r7, r5
   LDR r0, =changeReturn
   BL printf
@@ -244,6 +471,21 @@ check_if_continue:
   BGT get_input
   LDREQ r0, =emptyMachine
   BL printf
+
+  LDR r0, =pin2               @Turns on red LED whenever the machine's inventory is empty
+  LDR r0, [r0]
+  MOV r1, #1
+  BL  digitalWrite
+
+  LDR r0, =delayMS_5
+  LDR r0, [r0]
+  BL  delay
+
+  LDR r0, =pin2
+  LDR r0, [r0]
+  MOV r1, #0
+  BL  digitalWrite
+
   B myexit
 
 @********************
@@ -422,9 +664,26 @@ peanuts: .asciz "Peanuts"
 
 .balign 4
 mandms: .asciz "M&Ms"
+
+.balign 4
+pin2: .word 2
+pin3: .word 3
+pin4: .word 4
+pin5: .word 5
+
+delayMS_1: .word 1000
+delayMS_5: .word 5000
+
+.balign 4
+ErrMsg: .asciz "Setup didn't work... Aborting...\n"
 @********************
 @printf and scanf declarations
 @********************
 .global printf
 .global scanf
+
+.extern wiringPiSetup
+.extern delay
+.extern digitalWrite
+.extern pinMode
 @End of code file
