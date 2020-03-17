@@ -12,12 +12,12 @@ local function onClick(event)
   end
 end
 
-local green = {101/255, 204/255, 184/255}
-local eggshell = {242/255, 242/255, 242/255}
-
 function scene:create(event)
-  display.setDefault( "background", unpack(green) )
   local sceneGroup = self.view
+  local green = {101/255, 204/255, 184/255}
+  local eggshell = {242/255, 242/255, 242/255}
+  display.setDefault( "background", unpack(green) )
+
   local button1 = widget.newButton(
     {
       x = display.contentWidth / 2,
@@ -25,11 +25,12 @@ function scene:create(event)
       id = "continue",
       label = "Start",
       onEvent = onClick,
-      font = "",
+      font = "Montserrat-Medium",
       fontSize = 75,
       labelColor = { default=eggshell, over={0, 0, 0, 0.5}}
     }
   )
+
   local title = display.newText(
     {
       text = "The Brain Train",
@@ -40,18 +41,25 @@ function scene:create(event)
     }
   )
   title:setFillColor( unpack(eggshell))
+
   local line = display.newRect( title.x, title.y + 100, display.contentWidth / 1.375, 10 )
   line:setFillColor(unpack(eggshell))
+
   local subtitle = display.newText(
     {
       text = "Developed by Cameron Howell",
       x = title.x,
       y = title.y + 150,
-      font = "static/PlayfairDisplayMedium",
+      font = "static/PlayfairDisplayBoldItalic",
       fontSize = 50
     }
   )
   subtitle:setFillColor(unpack( eggshell ))
+
+  sceneGroup:insert(title)
+  sceneGroup:insert(subtitle)
+  sceneGroup:insert(line)
+  sceneGroup:insert(button1)
 end
 
 function scene:show(event)
