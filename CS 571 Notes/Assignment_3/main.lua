@@ -1,2 +1,7 @@
 local composer = require( "composer" )
-composer.gotoScene( "title" )
+local options = {
+  effect = "fade",
+  time = 800,
+}
+--loads the title scene
+composer.gotoScene( "title", options )
