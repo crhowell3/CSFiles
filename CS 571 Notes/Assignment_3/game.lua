@@ -1,6 +1,12 @@
+--[[
+The game scene handles the entirety of the actual gameplay. All the display objects
+shown when playing are created and handled here
+]]
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+--This list of variables are all initializations. Again, the tables with numbers
+--are simply RGB colors for the scene's objects
 local numberObject = {}
 
 local eggshell = {242/255, 242/255, 242/255}
@@ -22,6 +28,9 @@ local achieved = 0
 local check
 local lose
 
+--This function is only executed whenever the 10th round has been completed by
+--either passing it for failing it. This function transitions to the results scene,
+--passing along the final score and rounds successfully completed
 local function onGameEnd(scr, ach)
   local options = {
     effect = "fade",
@@ -35,11 +44,19 @@ local function onGameEnd(scr, ach)
   composer.gotoScene("result", options)
 end
 
+--This function is called with a delay after all the numbers are displayed for the
+--curent round. This just simply removes the numbers and sets the box to visible
 local function changeNumberToBox(n)
   n.text.isVisible = false
   n.isVisible = true
 end
 
+--This function handles all the operations required for reloading the game scene.
+--I couldn't find a better way to update this scene, so this just sets everything not
+--in the sceneGroup to nil, and then transitions to the intermediate scene so that
+--the current state of the game scene is deleted. The intermediate scene then calls
+--a new instance of the game scene, but with the current score, round, rounds passed,
+--and correctness counter
 local function updateScene(cnt,rnd,scr,ach)
   local options = {
     effect = "fade",
@@ -64,6 +81,11 @@ local function updateScene(cnt,rnd,scr,ach)
   composer.gotoScene("intermediate", options)  --This intermediate scene is here for resetting the scene object. The intermediate scene contains nothing.
 end
 
+--Whenever a box is tapped, this function determines if the tap was correct or not.
+--If incorrect, the "wrong" sound is played, the round number is updated, and the
+--updateScene function is called. If the tap was correct, the "right" sound is played,
+--and whenever the last box is clicked, then the scene plays the "win" sound, displays
+--a checkmark, and then calls updateScene
 local function onBoxClick(event)
   local min = 13
   local max = 0
@@ -117,6 +139,7 @@ local function onBoxClick(event)
   end
 end
 
+--This function creates each numerical object along with their respective box
 local function createGameObject(xPos, yPos, sceneGroup)
   local randomNum = math.random(1, 12)
   --This while loop ensures that no numbers are repeated for any one stage
@@ -157,6 +180,9 @@ local function createGameObject(xPos, yPos, sceneGroup)
   return numberObject
 end
 
+--All variables are updated based on the parameters passed from the previous scene
+--Objects are created by calling the createGameObject function, and then they are
+--placed into a grid on the screen.
 function scene:create(event)
   local sceneGroup = self.view
   local params = event.params
@@ -182,23 +208,26 @@ function scene:create(event)
       fontSize = 125
     }
   )
-
+--creates the checkmark object, but it is only displayed if the user passes successfully
   check = display.newImage("pictures/check-icon.png", display.contentCenterX, display.contentCenterY)
   check.anchorX = 0.5
   check.anchorY = 0.5
   check.isVisible = false
-
+--creates the wrong object, but it is only displayed if the user fails the level
   lose = display.newImage("pictures/exit-button-icon-3.png", display.contentCenterX, display.contentCenterY)
   lose.anchorX = 0.5
   lose.anchorY = 0.5
   lose.isVisible = false
 
+--adds all display objects to the sceneGroup
   sceneGroup:insert(check)
   sceneGroup:insert(lose)
   roundLabel:setFillColor(unpack( charcoal ))
   sceneGroup:insert(roundLabel)
 end
 
+--Handles displaying the objects and the delay for calling the function to transition
+--them into boxes
 function scene:show(event)
   local sceneGroup = self.view
   local phase = event.phase

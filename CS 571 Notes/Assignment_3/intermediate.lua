@@ -14,6 +14,8 @@ function scene:create(event)
   local sceneGroup = self.view
 end
 
+--This intermediate scene just holds the variables from the game scene so that
+--the game scene can close out and reset for the next round 
 function scene:show(event)
   local sceneGroup = self.view
   local phase = event.phase
