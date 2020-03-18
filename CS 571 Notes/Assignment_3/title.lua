@@ -25,7 +25,7 @@ function scene:create(event)
       id = "continue",
       label = "Start",
       onEvent = onClick,
-      font = "Montserrat-Medium",
+      font = "fonts/Montserrat-Medium",
       fontSize = 75,
       labelColor = { default=eggshell, over={0, 0, 0, 0.5}}
     }
@@ -36,7 +36,7 @@ function scene:create(event)
       text = "The Brain Train",
       x = display.contentWidth / 2,
       y = display.contentHeight / 2 - 50,
-      font = "static/PlayfairDisplayBoldItalic",
+      font = "fonts/PlayfairDisplayBoldItalic",
       fontSize = 125
     }
   )
@@ -50,7 +50,7 @@ function scene:create(event)
       text = "Developed by Cameron Howell",
       x = title.x,
       y = title.y + 150,
-      font = "static/PlayfairDisplayBoldItalic",
+      font = "fonts/PlayfairDisplayBoldItalic",
       fontSize = 50
     }
   )

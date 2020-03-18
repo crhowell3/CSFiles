@@ -1,6 +1,15 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+local numberObject = {}
+
+local grid = {}
+for i=1,4 do
+  grid[i] = {}
+end
+
+local counter = 3
+
 local function onGameEnd(event)
   local options = {
     effect = "fade",
@@ -9,39 +18,56 @@ local function onGameEnd(event)
   composer.gotoScene("result", options)
 end
 
-local function changeNumberToBox(event)
-  sceneGroup.numberObject.number.isVisible = false
+local function changeNumberToBox(n)
+  n.text.isVisible = false
+  n.isVisible = true
 end
 
-local numberObject = display.newGroup()
+local function onBoxClick(event)
+  if event.target.isClicked == false then
+    local right = audio.loadSound( "sounds/right.mp3" )
+    local audioChannel = audio.play( right )
+    event.target.isClicked = true
+    event.target.isVisible = false
+    event.target.text.isVisible = true
+  end
+end
 
-function scene:create(event)
-  local sceneGroup = self.view
+local function updateStage(event)
   local number = display.newText(
     {
       text = math.random(1, 10),
-      x = display.contentWidth / 2,
-      y = display.contentHeight / 2 - 50,
-      font = "Montserrat-Medium",
+      x = math.random(100, display.contentWidth - 100),
+      y = math.random(100, display.contentWidth - 100),
+      font = "fonts/Montserrat-Medium",
       fontSize = 125
     }
   )
   local box = display.newRect( number.x, number.y, 100, 100 )
   box.isVisible = false
-  numberObject:insert(number)
-  numberObject:insert(box)
-  sceneGroup:insert(numberObject)
+  box.isClicked = false
+  box.text = number
+  table.insert(numberObject, box)
+  box:addEventListener("tap", onBoxClick)
+end
+
+function scene:create(event)
+  local sceneGroup = self.view
 end
 
 function scene:show(event)
   local sceneGroup = self.view
-  sceneGroup:addEventListener("")
   local green = {101/255, 204/255, 184/255}
   local phase = event.phase
   if (phase == "will") then
     display.setDefault( "background", unpack(green) )
+    for i=1, counter do
+      updateStage()
+    end
   elseif (phase == "did") then
-    timer.performWithDelay( 700, changeNumberToBox, 0 )
+    for _, i in ipairs(numberObject) do
+      timer.performWithDelay( 700, changeNumberToBox(i))
+    end
   end
 end
 
