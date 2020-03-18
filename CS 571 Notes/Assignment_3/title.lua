@@ -6,8 +6,15 @@ local function onClick(event)
   if ("ended" == event.phase) then
     local options = {
       effect = "fade",
-      time = 800
+      time = 800,
+      params = {
+        c = 3,
+        r = 1,
+        s = 0,
+        a = 0
+      }
     }
+    composer.removeScene("title")
     composer.gotoScene("game", options)
   end
 end
@@ -16,6 +23,7 @@ function scene:create(event)
   local sceneGroup = self.view
   local green = {101/255, 204/255, 184/255}
   local eggshell = {242/255, 242/255, 242/255}
+  local pine = {87/255, 186/255, 152/255}
   display.setDefault( "background", unpack(green) )
 
   local button1 = widget.newButton(
@@ -27,7 +35,7 @@ function scene:create(event)
       onEvent = onClick,
       font = "fonts/Montserrat-Medium",
       fontSize = 75,
-      labelColor = { default=eggshell, over={0, 0, 0, 0.5}}
+      labelColor = { default=eggshell, over=pine}
     }
   )
 
