@@ -4,17 +4,25 @@ local widget = require("widget")
 local State = require ("state")
 
 local stateSquare = State:new()
+local stateList
+local selectedState = nil
 local stateObjTable = {}
-
+local toggle = false
 local gridX = 300
 local gridY = 300
 
 local function onClick(event)
   local options = {
     effect = "fade",
-    time = 800
+    time = 800,
+    params = {
+      st = stateList,
+      sel = selectedState
+    }
   }
-  composer.gotoScene("countyScene", options)
+  if (selectedState ~= nil) then
+    composer.gotoScene("countyScene", options)
+  end
 end
 
 function stateSquare:spawn()
@@ -23,22 +31,38 @@ function stateSquare:spawn()
   self.shape:setFillColor(self.r, self.g, self.b);
 end
 
-function stateSquare:touch()
+function stateSquare:touch(g)
   local function onStateTouch (event)
-    event.target.strokeWidth = 10;
+    for _, k in ipairs(stateObjTable) do
+      k.shape.strokeWidth = 0
+      k.isSelected = false
+      toggle = false
+      k:display()
+    end
+    event.target.strokeWidth = 7
+    event.target.isSelected = true
+    toggle = true
+    selectedState = self
+    self:display(g)
   end
   self.shape:addEventListener("tap", onStateTouch);
 end
 
-function stateSquare:display()
-  local nameText = display.newText(
-    {
-      text = self.name,
-      fontSize = 125,
-      x = display.contentCenterX,
-      y = display.contentHeight - 100
-    }
-  )
+function stateSquare:display(g)
+  if (toggle == true) then
+    local nameText = display.newText(
+      {
+        text = self.name,
+        fontSize = 125,
+        x = display.contentCenterX,
+        y = display.contentHeight - 100
+      }
+    )
+    self.title = nameText
+    g:insert(self.title);
+  else
+    display.remove(self.title)
+  end
 end
 
 function scene:create(event)
@@ -88,16 +112,17 @@ function scene:create(event)
         gridY = gridY + 125
       end
       state:spawn();
-      state:touch();
+      state:touch(sceneGroup);
       table.insert(stateObjTable, state);
+      sceneGroup:insert(state.shape);
     end
   end
-
   sceneGroup:insert(countyButton)
   sceneGroup:insert(text)
 end
 
 function scene:show(event)
+  composer.removeScene("countyScene")
   local sceneGroup = self.view
 end
 

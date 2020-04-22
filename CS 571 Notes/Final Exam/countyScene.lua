@@ -1,9 +1,27 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+local County = require ("county")
+
+local stateList
+local selectedState
+
+local function onClick(event)
+  local options = {
+    effect = "fade",
+    time = 800,
+    params = {
+      st = stateList
+    }
+  }
+  composer.gotoScene("stateScene", options)
+end
 
 function scene:create(event)
   local sceneGroup = self.view
+  local params = event.params
+  stateList = params.st
+  selectedState = params.sel
   local options = {
     x = 150,
     y = 100,
@@ -22,6 +40,8 @@ function scene:create(event)
   text.x = stateButton.x
   text.y = stateButton.y
   stateButton.text = text
+  sceneGroup:insert(text)
+  stateButton:addEventListener("tap", onClick)
   --stateButton:addEventListener("tap", onClick)
   stateButton.isVisible = true
   sceneGroup:insert(stateButton)

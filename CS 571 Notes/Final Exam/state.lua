@@ -2,7 +2,7 @@
 State class for all state objects
 ]]
 
-local State = {counties = {}, name = "", xPos = 0, yPos = 0, r = 1, g = 1, b = 1};
+local State = {counties = {}, name = "", xPos = 0, yPos = 0, r = 1, g = 1, b = 1, isSelected = false, deaths = 0, confirmed = 0};
 
 function State:new (obj)
   obj = obj or {};
@@ -19,9 +19,15 @@ end
 
 function State:touch()
   local function onStateTouch (event)
-    event.target.strokeWidth = 5;
+    --for _, k in ipairs(stateObjTable) do
+      --k.shape.strokeWidth = 0
+      --k.isSelected = false
+    --end
+    --The above code is for reverting all other selections to their normal state so that only one is selected
+    event.target.strokeWidth = 7
+    event.target.isSelected = true
   end
-  self:addEventListener("tap", onStateTouch);
+  self.shape:addEventListener("tap", onStateTouch);
 end
 
 function State:display()
