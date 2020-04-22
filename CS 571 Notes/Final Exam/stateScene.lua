@@ -39,7 +39,7 @@ function stateSquare:touch(g)
       toggle = false
       k:display()
     end
-    event.target.strokeWidth = 7
+    event.target.strokeWidth = 10
     event.target.isSelected = true
     toggle = true
     selectedState = self
@@ -72,8 +72,8 @@ function scene:create(event)
   local options = {
     x = display.contentWidth - 150,
     y = 100,
-    width = 100,
-    height = 50
+    width = 200,
+    height = 100
   }
   local countyButton = widget.newButton( options )
   countyButton.anchorX = 0.5
