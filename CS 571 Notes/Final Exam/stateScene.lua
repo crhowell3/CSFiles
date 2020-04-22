@@ -1,11 +1,15 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-local State = require ("state");
+local State = require ("state")
 
-local stateSquare = State:new({});
+local stateSquare = State:new()
+local stateObjTable = {}
 
-function onClick(event)
+local gridX = 300
+local gridY = 300
+
+local function onClick(event)
   local options = {
     effect = "fade",
     time = 800
@@ -14,15 +18,27 @@ function onClick(event)
 end
 
 function stateSquare:spawn()
-
+  self.shape = display.newRect( self.xPos, self.yPos, 100, 100 );
+  self.shape.pp = self;
+  self.shape:setFillColor(self.r, self.g, self.b);
 end
 
 function stateSquare:touch()
-
+  local function onStateTouch (event)
+    event.target.strokeWidth = 10;
+  end
+  self.shape:addEventListener("tap", onStateTouch);
 end
 
 function stateSquare:display()
-
+  local nameText = display.newText(
+    {
+      text = self.name,
+      fontSize = 125,
+      x = display.contentCenterX,
+      y = display.contentHeight - 100
+    }
+  )
 end
 
 function scene:create(event)
@@ -49,6 +65,34 @@ function scene:create(event)
   countyButton.text = text
   countyButton:addEventListener("tap", onClick)
   countyButton.isVisible = true
+
+  for index, value in pairs(stateList) do
+    local stateName
+    local cList
+    local create = true
+    for field, fVal in pairs(value) do
+      if (field == "displayName") then
+        if (fVal == "District of Columbia") then
+          create = false
+        end
+        stateName = fVal
+      elseif (field == "areas") then
+        cList = fVal
+      end
+    end
+    if (create) then
+      local state = stateSquare:new({counties = cList, name = stateName, xPos = gridX, yPos = gridY, r = math.random(), g = math.random(), b = math.random() })
+      gridX = gridX + 125
+      if(gridX == 925) then
+        gridX = 300
+        gridY = gridY + 125
+      end
+      state:spawn();
+      state:touch();
+      table.insert(stateObjTable, state);
+    end
+  end
+
   sceneGroup:insert(countyButton)
   sceneGroup:insert(text)
 end
