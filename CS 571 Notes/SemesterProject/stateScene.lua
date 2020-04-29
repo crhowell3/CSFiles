@@ -1,6 +1,6 @@
 --[[
-
-
+This is the scene that shows whenever a state is tapped into, and it shows county-level details about the state, as well as total numbers.
+NOTE: I cannot show recoveries for either the states or the counties because that data was not made avaibable in daily increments.
 ]]
 local composer = require( "composer" )
 local scene = composer.newScene()

@@ -1,6 +1,7 @@
 --[[
-
-
+This is the opening scene that shows the country overlay. Contains all 50 states represented as tappable squares.
+NOTE: I cannot show the recoveries, as that data was not given in daily increments. I could show an overview of the recoveries in terms of the
+entire country, but that would not fit with the time scale.
 ]]
 local composer = require( "composer" )
 local scene = composer.newScene()
