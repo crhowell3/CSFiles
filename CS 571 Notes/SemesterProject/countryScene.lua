@@ -7,8 +7,18 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 local State = require ("state")
 local stateObjTable
-local gridX = 300
-local gridY = 300
+local gridX = 500
+local gridY = 100
+local stateGrid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+                   {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                   {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+                   {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+                   {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+                   {0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
+                   {1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0}}
+local stateList = {"Maine", ""}
+local stateCounter = 1
 
 local function sliderListener(event)
 --For the slider that will control the dates
@@ -27,6 +37,22 @@ function scene:create(event)
       y = display.contentCenterY,
     }
   )
+  for i=1,8 do
+    for j=1,12 do
+      if (stateGrid[i][j] == 1) then
+        stateObjTable[stateCounter].xPos = gridX
+        stateObjTable[stateCounter].yPos = gridY
+        stateObjTable[stateCounter]:spawn()
+        gridX = gridX + 125
+        stateCounter = stateCounter + 1
+      else
+        gridX = gridX + 125
+      end
+    end
+    gridX = 500
+    gridY = gridY + 125
+  end
+  --[[
   for _, p in ipairs(stateObjTable) do
     p.xPos = gridX
     p.yPos = gridY
@@ -35,8 +61,12 @@ function scene:create(event)
       gridX = 300
       gridY = gridY + 125
     end
+    p.r = 1
+    p.b = 1
+    p.g = 1
     p:spawn()
   end
+  ]]
 end
 
 function scene:show(event)

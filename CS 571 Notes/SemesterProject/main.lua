@@ -33,7 +33,7 @@ local countyObj = county:new()
 for fields in c:lines() do
   for i, v in ipairs( fields ) do
     if (i == 7 and ignoreFirstLine ~= 0) then
-      if (v ~= stateName and v ~= "District of Columbia") then
+      if (v ~= stateName) then
         stateName = v
         local state = stateSquare:new({name = stateName})
         table.insert(stateObjTable, state)
