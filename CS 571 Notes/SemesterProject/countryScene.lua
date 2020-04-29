@@ -6,8 +6,21 @@ entire country, but that would not fit with the time scale.
 local composer = require( "composer" )
 local scene = composer.newScene()
 
+local stateObjTable
+
 function scene:create(event)
   local sceneGroup = self.view
+  local params = event.params
+  stateObjTable = params.sot
+  display.setDefault("background", 208/255, 200/255, 189/255)
+  local title = display.newText(
+    {
+      text = "Test",
+      fontSize = 50,
+      x = display.contentCenterX,
+      y = display.contentCenterY,
+    }
+  )
 end
 
 function scene:show(event)

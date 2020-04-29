@@ -9,11 +9,13 @@ local csv = require("csv")
 local c = csv.open(system.pathForFile( "confirmed.csv", system.ResourceDirectory ))
 local d = csv.open(system.pathForFile( "deaths.csv", system.ResourceDirectory ))
 local State = require ("state")
+local composer = require( "composer" )
 
 local stateSquare = State:new()
 local stateObjTable = {}
 local countyName = ""
 local cases = {}
+local deaths = {}
 local ignoreFirstLine = 0
 local stateName = ""
 local county = {name = "", cases = {}, deaths = {}}
@@ -58,6 +60,7 @@ for fields in c:lines() do
       for n, s in ipairs( stateObjTable ) do
         if ( v == s.name) then
           stateName = s.name
+          break
         end
       end
     elseif ( i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
@@ -67,6 +70,7 @@ for fields in c:lines() do
           if ( stateName == s.name ) then
             local co = countyObj:new({name = countyName, cases = cases})
             table.insert(s.counties, co)
+            break
           end
         end
       end
@@ -75,42 +79,45 @@ for fields in c:lines() do
   ignoreFirstLine = ignoreFirstLine + 1
 end
 
---[[if (i == 6 and ignoreFirstLine ~= 0) then
-  county = v
-]]
-
---[[elseif (i >= 12 and i <= 109) then
-    cases[i-11] = v
-    if(i == 109) then
-      state.counties[countyCounter][1] = county
-      state.counties[countyCounter][2] = cases
-      cases = {}
-    end
-]]
-
---[[
+ignoreFirstLine = 0
 for fields in d:lines() do
   for i, v in ipairs( fields ) do
     if (i == 6 and ignoreFirstLine ~= 0) then
-      county = v
-    elseif (i == 7) then
-      if (v ~= stateName) then
-        stateName = v
-        countyCounter = countyCounter + 1
-      else
-        countyCounter = countyCounter + 1
+      countyName = v
+    elseif (i == 7 and ignoreFirstLine ~= 0) then
+      for n, s in ipairs( stateObjTable ) do
+        if ( v == s.name) then
+          stateName = s.name
+          break
+        end
       end
-    elseif (i >= 12 and i <= 109) then
-      cases[i-11] = v
+    elseif (i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
+      deaths[i-11] = v
       if(i == 109) then
-        local state = stateSquare:new({name = stateName, counties = {county, cases}})
-        table.insert(stateObjTable, state)
-        cases = {}
+        for n, s in ipairs( stateObjTable ) do
+          if (stateName == s.name) then
+            for p, t in ipairs(s.counties) do
+              if (countyName == t.name) then
+                t.deaths = deaths
+              end
+            end
+            break
+          end
+        end
       end
     end
   end
   ignoreFirstLine = ignoreFirstLine + 1
 end
 
---composer.gotoScene( "stateScene", options )
-]]
+local options = {
+  effect = "fade",
+  time = 800,
+  params = {
+    sot = stateObjTable
+  }
+}
+
+display.setStatusBar( display.HiddenStatusBar )
+
+composer.gotoScene( "countryScene", options )
