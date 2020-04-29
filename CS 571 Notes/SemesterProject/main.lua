@@ -8,21 +8,109 @@ Purpose: This program displays US COVID-19 data ranging from 1/22/20 to 4/28/20
 local csv = require("csv")
 local c = csv.open(system.pathForFile( "confirmed.csv", system.ResourceDirectory ))
 local d = csv.open(system.pathForFile( "deaths.csv", system.ResourceDirectory ))
+local State = require ("state")
 
-for fields in c:lines() do
-  for i, v in ipairs( fields ) do
-    if (i >= 12 and i <= 109) then
+local stateSquare = State:new()
+local stateObjTable = {}
+local countyName = ""
+local cases = {}
+local ignoreFirstLine = 0
+local stateName = ""
+local county = {name = "", cases = {}, deaths = {}}
 
-    end
-  end
+function county:new (obj)
+  obj = obj or {};
+  setmetatable( obj, self );
+  self.__index = self;
+  return obj;
 end
 
-for fields in d:lines() do
-  for i, v in ipairs( fields ) do
-    if (i >= 12 and i <= 109) then
+local countyObj = county:new()
 
+function stateSquare:spawn()
+  self.shape = display.newRect( self.xPos, self.yPos, 100, 100 );
+  self.shape.pp = self;
+  self.shape:setFillColor(self.r, self.g, self.b);
+end
+
+--Iterate once to initialize the state objects with names
+for fields in c:lines() do
+  for i, v in ipairs( fields ) do
+    if (i == 7 and ignoreFirstLine ~= 0) then
+      if (v ~= stateName and v ~= "District of Columbia") then
+        stateName = v
+        local state = stateSquare:new({name = stateName})
+        state:spawn()
+        table.insert(stateObjTable, state)
+      end
     end
   end
+  ignoreFirstLine = ignoreFirstLine + 1
+end
+
+--Iterate again to get the rest of the case data for each state
+ignoreFirstLine = 0
+for fields in c:lines() do
+  for i, v in ipairs( fields ) do
+    if (i == 6 and ignoreFirstLine ~= 0) then
+      countyName = v
+    elseif (i == 7 and ignoreFirstLine ~= 0) then
+      for n, s in ipairs( stateObjTable ) do
+        if ( v == s.name) then
+          stateName = s.name
+        end
+      end
+    elseif ( i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
+      cases[i-11] = v
+      if (i == 109) then
+        for n, s in ipairs( stateObjTable ) do
+          if ( stateName == s.name ) then
+            local co = countyObj:new({name = countyName, cases = cases})
+            table.insert(s.counties, co)
+          end
+        end
+      end
+    end
+  end
+  ignoreFirstLine = ignoreFirstLine + 1
+end
+
+--[[if (i == 6 and ignoreFirstLine ~= 0) then
+  county = v
+]]
+
+--[[elseif (i >= 12 and i <= 109) then
+    cases[i-11] = v
+    if(i == 109) then
+      state.counties[countyCounter][1] = county
+      state.counties[countyCounter][2] = cases
+      cases = {}
+    end
+]]
+
+--[[
+for fields in d:lines() do
+  for i, v in ipairs( fields ) do
+    if (i == 6 and ignoreFirstLine ~= 0) then
+      county = v
+    elseif (i == 7) then
+      if (v ~= stateName) then
+        stateName = v
+        countyCounter = countyCounter + 1
+      else
+        countyCounter = countyCounter + 1
+      end
+    elseif (i >= 12 and i <= 109) then
+      cases[i-11] = v
+      if(i == 109) then
+        local state = stateSquare:new({name = stateName, counties = {county, cases}})
+        table.insert(stateObjTable, state)
+        cases = {}
+      end
+    end
+  end
+  ignoreFirstLine = ignoreFirstLine + 1
 end
 
 --composer.gotoScene( "stateScene", options )
+]]

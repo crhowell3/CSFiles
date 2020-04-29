@@ -1,7 +1,7 @@
 --[[
 State class for all State instances
 ]]
-local State = {name = "", counties = { { } }, xPos = 0, yPos = 0}
+local State = {name = "", counties = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0}
 
 --NOTE: THESE ARE NOT FINAL
 function State:new (obj)

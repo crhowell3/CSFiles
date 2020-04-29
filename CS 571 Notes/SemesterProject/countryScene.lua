@@ -11,11 +11,8 @@ function scene:create(event)
 end
 
 function scene:show(event)
+  composer.removeScene("stateScene")
   local sceneGroup = self.view
-  local phase = event.phase
-  if ( phase == "will" ) then
-  elseif ( phase == "did" ) then
-  end
 end
 
 function scene:hide(event)
