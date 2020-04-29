@@ -29,12 +29,6 @@ end
 
 local countyObj = county:new()
 
-function stateSquare:spawn()
-  self.shape = display.newRect( self.xPos, self.yPos, 100, 100 );
-  self.shape.pp = self;
-  self.shape:setFillColor(self.r, self.g, self.b);
-end
-
 --Iterate once to initialize the state objects with names
 for fields in c:lines() do
   for i, v in ipairs( fields ) do
@@ -42,7 +36,6 @@ for fields in c:lines() do
       if (v ~= stateName and v ~= "District of Columbia") then
         stateName = v
         local state = stateSquare:new({name = stateName})
-        state:spawn()
         table.insert(stateObjTable, state)
       end
     end

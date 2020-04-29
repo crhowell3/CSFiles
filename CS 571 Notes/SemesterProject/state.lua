@@ -12,10 +12,10 @@ function State:new (obj)
 end
 
 function State:spawn()
-  self.shape = display.newSquare(self.xPos, self.yPos, 100, 100)
+  self.shape = display.newRect(self.xPos, self.yPos, 100, 100)
   self.shape.pp = self;
   self.shape:setFillColor(self.r, self.g, self.b);
-  self.shape.strokeWidth = 5;
+  self.shape.strokeWidth = 0;
 end
 
 function State:touch()

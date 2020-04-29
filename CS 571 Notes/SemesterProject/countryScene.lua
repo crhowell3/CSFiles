@@ -5,8 +5,14 @@ entire country, but that would not fit with the time scale.
 ]]
 local composer = require( "composer" )
 local scene = composer.newScene()
-
+local State = require ("state")
 local stateObjTable
+local gridX = 300
+local gridY = 300
+
+local function sliderListener(event)
+--For the slider that will control the dates
+end
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -21,6 +27,16 @@ function scene:create(event)
       y = display.contentCenterY,
     }
   )
+  for _, p in ipairs(stateObjTable) do
+    p.xPos = gridX
+    p.yPos = gridY
+    gridX = gridX + 125
+    if(gridX == 1300) then
+      gridX = 300
+      gridY = gridY + 125
+    end
+    p:spawn()
+  end
 end
 
 function scene:show(event)

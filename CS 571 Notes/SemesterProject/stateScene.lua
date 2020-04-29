@@ -7,6 +7,7 @@ local scene = composer.newScene()
 
 function scene:create(event)
   local sceneGroup = self.view
+  display.setDefault("background", 208/255, 200/255, 189/255)
 end
 
 function scene:show(event)
