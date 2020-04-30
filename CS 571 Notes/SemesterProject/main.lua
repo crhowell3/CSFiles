@@ -14,28 +14,26 @@ local composer = require( "composer" )
 local stateSquare = State:new()
 local stateObjTable = {}
 local countyName = ""
-local cases = {}
-local deaths = {}
+local caseArray = {}
+local dailyCases = {}
+local deathArray = {}
+local dailyDeaths = {}
 local ignoreFirstLine = 0
 local stateName = ""
-local county = {name = "", cases = {}, deaths = {}}
-
-function county:new (obj)
-  obj = obj or {};
-  setmetatable( obj, self );
-  self.__index = self;
-  return obj;
-end
-
-local countyObj = county:new()
+local dateList = {}
+local maxCasesTbl = {}
+local maxDeathsTbl = {}
 
 --Iterate once to initialize the state objects with names
 for fields in c:lines() do
   for i, v in ipairs( fields ) do
+    if (ignoreFirstLine == 0 and i >= 12 and i <= 109) then
+      table.insert(dateList, v)
+    end
     if (i == 7 and ignoreFirstLine ~= 0) then
       if (v ~= stateName) then
         stateName = v
-        local state = stateSquare:new({name = stateName})
+        local state = stateSquare:new({name = stateName, counties = {}, casesByDay = {}})
         table.insert(stateObjTable, state)
       end
     end
@@ -45,6 +43,7 @@ end
 
 --Iterate again to get the rest of the case data for each state
 ignoreFirstLine = 0
+counter = 1
 for fields in c:lines() do
   for i, v in ipairs( fields ) do
     if (i == 6 and ignoreFirstLine ~= 0) then
@@ -52,18 +51,22 @@ for fields in c:lines() do
     elseif (i == 7 and ignoreFirstLine ~= 0) then
       for n, s in ipairs( stateObjTable ) do
         if ( v == s.name) then
+          if (stateName ~= v) then
+            counter = 1
+          end
           stateName = s.name
-          break
         end
       end
     elseif ( i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
-      cases[i-11] = v
+      caseArray[i-11] = v
       if (i == 109) then
         for n, s in ipairs( stateObjTable ) do
           if ( stateName == s.name ) then
-            local co = countyObj:new({name = countyName, cases = cases})
-            table.insert(s.counties, co)
-            break
+            local county = {name = countyName, cases = caseArray, deaths = {}}
+            s.counties[counter] = county
+            counter = counter + 1
+            county = nil
+            caseArray = {}
           end
         end
       end
@@ -81,20 +84,21 @@ for fields in d:lines() do
       for n, s in ipairs( stateObjTable ) do
         if ( v == s.name) then
           stateName = s.name
-          break
         end
       end
     elseif (i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
-      deaths[i-11] = v
+      deathArray[i-11] = v
       if(i == 109) then
         for n, s in ipairs( stateObjTable ) do
           if (stateName == s.name) then
             for p, t in ipairs(s.counties) do
               if (countyName == t.name) then
-                t.deaths = deaths
+                for i=1,#deathArray do
+                  t.deaths[i] = deathArray[i]
+                end
+                deathArray = {}
               end
             end
-            break
           end
         end
       end
@@ -103,11 +107,51 @@ for fields in d:lines() do
   ignoreFirstLine = ignoreFirstLine + 1
 end
 
+local sum = 0
+for _, a in ipairs(stateObjTable) do
+  for i=1,98 do
+    for j=1,#a.counties do
+      sum = sum + a.counties[j].cases[i]
+    end
+    a.casesByDay[i] = sum
+    sum = 0
+  end
+end
+
+local sum = 0
+for _, a in ipairs(stateObjTable) do
+  for i=1,98 do
+    for j=1,#a.counties do
+      sum = sum + a.counties[j].deaths[i]
+    end
+    a.deathsByDay[i] = sum
+    sum = 0
+  end
+end
+
+for _, s in ipairs(stateObjTable) do
+  if (s.name == "Alabama") then
+    for a, b in ipairs(s.counties) do
+      for i, j in ipairs(b.deaths) do
+        print(j)
+      end
+    end
+  end
+end
+
+for i=1,50 do
+  maxCasesTbl[i] = stateObjTable[i].casesByDay[98]
+  maxDeathsTbl[i] = stateObjTable[i].deathsByDay[98]
+end
+
 local options = {
   effect = "fade",
   time = 800,
   params = {
-    sot = stateObjTable
+    sot = stateObjTable,
+    dat = dateList,
+    mc = maxCasesTbl,
+    md = maxDeathsTbl
   }
 }
 

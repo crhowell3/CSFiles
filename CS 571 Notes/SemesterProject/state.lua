@@ -1,7 +1,8 @@
 --[[
 State class for all State instances
 ]]
-local State = {name = "", counties = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0}
+local composer = require( "composer" )
+local State = {name = "", counties = {}, casesByDay = {}, deathsByDay = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0, isSelected = false}
 
 --NOTE: THESE ARE NOT FINAL
 function State:new (obj)
@@ -18,28 +19,52 @@ function State:spawn()
   self.shape.strokeWidth = 0;
 end
 
-function State:touch()
+function State:touch(g, tbl, list)
   local function onStateTouch (event)
-    --for _, k in ipairs(stateObjTable) do
-      --k.shape.strokeWidth = 0
-      --k.isSelected = false
-    --end
-    --The above code is for reverting all other selections to their normal state so that only one is selected
-    event.target.strokeWidth = 7
-    event.target.isSelected = true
+    if (event.numTaps == 1) then
+      for _, k in ipairs(tbl) do
+        k.shape.strokeWidth = 0
+        k.isSelected = false
+        toggle = false
+        k:display()
+      end
+      event.target.strokeWidth = 10
+      event.target.isSelected = true
+      toggle = true
+      selectedState = self
+      self:display(g)
+    elseif (event.numTaps == 2) then
+      local options = {
+        effect = "fade",
+        time = 800,
+        params = {
+          st = tbl,
+          dl = list
+        }
+      }
+      if (selectedState ~= nil) then
+        composer.gotoScene("stateScene", options)
+      end
+    end
   end
   self.shape:addEventListener("tap", onStateTouch);
 end
 
-function State:display()
-  local nameText = display.newText(
-    {
-      text = self.name,
-      fontSize = 125,
-      x = display.contentCenterX,
-      y = display.contentHeight - 100
-    }
-  )
+function State:display(g)
+  if (toggle == true) then
+    local nameText = display.newText(
+      {
+        text = self.name,
+        fontSize = 125,
+        x = display.contentCenterX,
+        y = display.contentHeight - 100
+      }
+    )
+    self.title = nameText
+    g:insert(self.title);
+  else
+    display.remove(self.title)
+  end
 end
 
 return State
