@@ -6,9 +6,13 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require( "widget" )
 
+local function map(value, istart, istop, ostart, ostop)
+  return (ostart + (ostop - ostart) * ((value - istart) / (istop - istart)))
+end
+
 local function onClick(event)
   local options = {
-    effect = "fade",
+    effect = "slideDown",
     time = 800,
     params = {
       sot = stateObjTable,
@@ -32,6 +36,10 @@ local function sliderListener(event)
             for i, county in ipairs(p.counties) do
               message = message..string.format ("%-20s%10i", county.name, county.cases[dS]).."\n"
               countyBox.text = message
+              vertScale = map(p.casesByDay[dS], 0, p.casesByDay[98], 0, 450)
+              casesBar.height = vertScale
+              vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
+              deathsBar.height = vertScale_2
             end
           end
         end
@@ -46,6 +54,10 @@ local function sliderListener(event)
             for i, county in ipairs(p.counties) do
               message = message..string.format ("%-20s%10i", county.name, county.cases[dS]).."\n"
               countyBox.text = message
+              vertScale = map(p.casesByDay[dS], 0, p.casesByDay[98], 0, 450)
+              casesBar.height = vertScale
+              vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
+              deathsBar.height = vertScale_2
             end
           end
         end
@@ -60,6 +72,10 @@ local function sliderListener(event)
             for i, county in ipairs(p.counties) do
               message = message..string.format ("%-20s%10i", county.name, county.cases[dS]).."\n"
               countyBox.text = message
+              vertScale = map(p.casesByDay[dS], 0, p.casesByDay[98], 0, 450)
+              casesBar.height = vertScale
+              vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
+              deathsBar.height = vertScale_2
             end
           end
         end
@@ -162,7 +178,7 @@ function scene:create(event)
   )
   dateLabel:setFillColor(0, 0, 0)
   sceneGroup:insert(dateLabel)
-  countyBox = native.newTextBox( 600, display.contentCenterY, 500, 900 )
+  countyBox = native.newTextBox( 600, display.contentCenterY + 50, 500, 700 )
   msg = ""
   for _, s in ipairs(stateObjTable) do
     if (s.name == sel) then
@@ -180,10 +196,76 @@ function scene:create(event)
   defaultBox:addEventListener("userInput", textListener)
   defaultBox.isFontSizeScaled = true
   defaultBox.size = 25
+  defaultBox.placeholder = "Search"
+  local stateTitle = display.newText(
+    {
+      text = sel,
+      fontSize = 100,
+      x = display.contentCenterX,
+      y = 100
+    }
+  )
+  stateTitle:setFillColor(0, 0, 0)
 
+  local stayAtHome = display.newText(
+    {
+      text = "Stay at Home:     ",
+      fontSize = 50,
+      x = stateTitle.x,
+      y = stateTitle.y + 70
+    }
+  )
+  stayAtHome:setFillColor(0, 0, 0)
+
+  local stayAtHomeAnswer = display.newText(
+    {
+      text = "Yes",
+      fontSize = 50,
+      x = stayAtHome.x + 185,
+      y = stayAtHome.y
+    }
+  )
+  stayAtHomeAnswer:setFillColor(1, 0, 0)
+
+  local countyLabel = display.newText(
+    {
+      text = "Counties",
+      fontSize = 50,
+      x = countyBox.x,
+      y = countyBox.y - 385
+    }
+  )
+  countyLabel:setFillColor(0, 0, 0)
+
+  for _, s in ipairs(stateObjTable) do
+    if (s.name == sel) then
+      init_C = s.casesByDay[dS]
+      init_D = s.deathsByDay[dS]
+      high_C = s.casesByDay[98]
+      high_D = s.deathsByDay[98]
+      break
+    end
+  end
+  scale_C = map(init_C, 0, high_C, 0, 450)
+  scale_D = map(init_D, 0, high_D, 0, 450 * (high_D / high_C))
+  casesBar = display.newRect(display.contentCenterX - 100, display.contentCenterY + 350, 50, scale_C)
+  casesBar:setFillColor(1, 0.5625, 0)
+  casesBar.anchorY = 1.0
+
+  deathsBar = display.newRect( display.contentCenterX + 100, display.contentCenterY + 350, 50, scale_D )
+  deathsBar:setFillColor(1, 0, 0)
+  deathsBar.anchorY = 1.0
+
+  sceneGroup:insert(casesBar)
+  sceneGroup:insert(deathsBar)
+  sceneGroup:insert(countyLabel)
+  sceneGroup:insert(stateTitle)
+  sceneGroup:insert(stayAtHome)
+  sceneGroup:insert(stayAtHomeAnswer)
   sceneGroup:insert(dateSlider)
   sceneGroup:insert(dateBox)
   sceneGroup:insert(countyBox)
+  sceneGroup:insert(defaultBox)
 end
 
 function scene:show(event)

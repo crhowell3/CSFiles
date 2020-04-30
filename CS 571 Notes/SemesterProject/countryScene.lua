@@ -54,6 +54,26 @@ function HSL(h, s, l, a)
   return (r+m),(g+m),(b+m),a
 end
 
+nameText = display.newText(
+  {
+    text = "Tap on a state!",
+    fontSize = 60,
+    x = display.contentWidth - 350,
+    y = display.contentHeight - 400
+  }
+)
+nameText:setFillColor(.1, .1, .1, .5)
+
+stateStats = display.newText(
+  {
+    text = "Cases:  ".."\nDeaths:  ",
+    fontSize = 50,
+    x = nameText.x,
+    y = nameText.y + 100
+  }
+)
+stateStats:setFillColor(.1, .1, .1, .5)
+
 function State:touch(g, tbl, list)
   local function onStateTouch (event)
     if (event.numTaps == 1) then
@@ -68,7 +88,7 @@ function State:touch(g, tbl, list)
       event.target.isSelected = true
       toggle = true
       selectedState = self
-      self:display(g)
+      self:display(g, nameText, stateStats)
     elseif (event.numTaps == 2) then
       for _, k in ipairs(tbl) do
         k.shape.strokeWidth = 0
@@ -77,7 +97,7 @@ function State:touch(g, tbl, list)
         k:display()
       end
       local options = {
-        effect = "fade",
+        effect = "slideUp",
         time = 800,
         params = {
           st = tbl,
@@ -220,6 +240,42 @@ function scene:create(event)
     gridX = 500
     gridY = gridY + 125
   end
+
+  local countryTitle = display.newText(
+    {
+      text = "COVID-19",
+      fontSize = 80,
+      x = display.contentCenterX,
+      y = 90
+    }
+  )
+  countryTitle:setFillColor(0, 0, 0)
+  sceneGroup:insert(countryTitle)
+  local countrySubtitle_1 = display.newText(
+    {
+      text = "------ in the ------",
+      fontSize = 40,
+      x = display.contentCenterX,
+      y = 155
+    }
+  )
+  countrySubtitle_1:setFillColor(0, 0, 0)
+  sceneGroup:insert(countrySubtitle_1)
+  local countrySubtitle_2 = display.newText(
+    {
+      text = "UNITED STATES",
+      fontSize = 90,
+      x = display.contentCenterX,
+      y = 230
+    }
+  )
+  countrySubtitle_2:setFillColor(0, 0, 0)
+  sceneGroup:insert(countrySubtitle_2)
+  stateInfoOutline = display.newRect( display.contentWidth - 350, display.contentHeight - 280, 550, 400 )
+  stateInfoOutline.strokeWidth = 2
+  stateInfoOutline:setStrokeColor(0, 0, 0)
+  stateInfoOutline:setFillColor(0, 0, 0, 0)
+  sceneGroup:insert(stateInfoOutline)
 end
 
 function scene:show(event)

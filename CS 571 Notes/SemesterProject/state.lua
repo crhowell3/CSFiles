@@ -2,7 +2,7 @@
 State class for all State instances
 ]]
 local composer = require( "composer" )
-local State = {name = "", counties = {}, casesByDay = {}, deathsByDay = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0, isSelected = false, ss = {}}
+local State = {name = "", counties = {}, casesByDay = {}, deathsByDay = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0, isSelected = false, ss = {}, sat = 0}
 
 --NOTE: THESE ARE NOT FINAL
 function State:new (obj)
@@ -50,16 +50,9 @@ function State:touch(g, tbl, list)
   self.shape:addEventListener("tap", onStateTouch);
 end
 
-function State:display(g)
+function State:display(g, nameText, stateStats)
   if (toggle == true) then
-    local nameText = display.newText(
-      {
-        text = self.name,
-        fontSize = 60,
-        x = display.contentWidth - 350,
-        y = display.contentHeight - 400
-      }
-    )
+    nameText.text = self.name
     nameText:setFillColor(0, 0, 0)
     self.title = nameText
     if (dateSlider.value > 98) then
@@ -69,14 +62,7 @@ function State:display(g)
     else
       dS = dateSlider.value
     end
-    local stateStats = display.newText(
-      {
-        text = "Cases: "..self.casesByDay[dS].."\nDeaths: "..self.deathsByDay[dS],
-        fontSize = 50,
-        x = nameText.x,
-        y = nameText.y + 100
-      }
-    )
+    stateStats.text = "Cases: "..self.casesByDay[dS].."\nDeaths: "..self.deathsByDay[dS]
     stateStats:setFillColor(0, 0, 0)
     self.ss = stateStats
 
