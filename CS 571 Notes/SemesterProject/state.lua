@@ -2,7 +2,7 @@
 State class for all State instances
 ]]
 local composer = require( "composer" )
-local State = {name = "", counties = {}, casesByDay = {}, deathsByDay = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0, isSelected = false}
+local State = {name = "", counties = {}, casesByDay = {}, deathsByDay = {}, xPos = 0, yPos = 0, r = 0, g = 0, b = 0, isSelected = false, ss = {}}
 
 --NOTE: THESE ARE NOT FINAL
 function State:new (obj)
@@ -13,7 +13,7 @@ function State:new (obj)
 end
 
 function State:spawn()
-  self.shape = display.newRect(self.xPos, self.yPos, 100, 100)
+  self.shape = display.newRect(self.xPos, self.yPos, 75, 75)
   self.shape.pp = self;
   self.shape:setFillColor(self.r, self.g, self.b);
   self.shape.strokeWidth = 0;
@@ -55,15 +55,36 @@ function State:display(g)
     local nameText = display.newText(
       {
         text = self.name,
-        fontSize = 125,
-        x = display.contentCenterX,
-        y = display.contentHeight - 100
+        fontSize = 60,
+        x = display.contentWidth - 350,
+        y = display.contentHeight - 400
       }
     )
+    nameText:setFillColor(0, 0, 0)
     self.title = nameText
+    if (dateSlider.value > 98) then
+      dS = 98
+    elseif (dateSlider.value == 0) then
+      dS = 1
+    else
+      dS = dateSlider.value
+    end
+    local stateStats = display.newText(
+      {
+        text = "Cases: "..self.casesByDay[dS].."\nDeaths: "..self.deathsByDay[dS],
+        fontSize = 50,
+        x = nameText.x,
+        y = nameText.y + 100
+      }
+    )
+    stateStats:setFillColor(0, 0, 0)
+    self.ss = stateStats
+
     g:insert(self.title);
+    g:insert(self.ss);
   else
     display.remove(self.title)
+    display.remove(self.ss)
   end
 end
 

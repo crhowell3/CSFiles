@@ -27,6 +27,10 @@ local stateList = { "Maine", "Vermont", "New Hampshire", "Washington", "Idaho", 
                     "Virginia", "Maryland", "Delaware", "Arizona", "New Mexico", "Kansas", "Arkansas", "Tennessee", "North Carolina",
                     "South Carolina", "District of Columbia", "Oklahoma", "Louisiana", "Mississippi", "Alabama", "Georgia", "Alaska",
                     "Hawaii", "Texas", "Florida"}
+local stateAbbr = { "ME", "VT", "NH", "WA", "ID", "MT", "ND", "MN", "IL", "WI", "MI", "NY", "RI", "MA",
+                    "OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "CA", "UT", "CO", "NE",
+                    "MO", "KY", "WV", "VA", "MD", "DE", "AZ", "NM", "KS", "AR", "TN", "NC", "SC", "DC",
+                    "OK", "LA", "MS", "AL", "GA", "AK", "HI", "TX", "FL"}
 local stateCounter = 1
 
 --Using the functions from the final exam because they happen to work perfectly for this project
@@ -60,20 +64,31 @@ function State:touch(g, tbl, list)
         k:display()
       end
       event.target.strokeWidth = 10
+      event.target:setStrokeColor(0, 0, 1)
       event.target.isSelected = true
       toggle = true
       selectedState = self
       self:display(g)
     elseif (event.numTaps == 2) then
+      for _, k in ipairs(tbl) do
+        k.shape.strokeWidth = 0
+        k.isSelected = false
+        toggle = false
+        k:display()
+      end
       local options = {
         effect = "fade",
         time = 800,
         params = {
           st = tbl,
           dl = list,
-          d = dateSlider.value
+          d = dateSlider.value,
+          mc = maxCasesTbl,
+          md = maxDeathsTbl,
+          n = self.name
         }
       }
+      event.target.isSelected = true
       if (selectedState ~= nil) then
         composer.gotoScene("stateScene", options)
       end
@@ -94,24 +109,32 @@ local function sliderListener(event)
 
     for _, p in ipairs(stateObjTable) do
       if (event.value == 0) then
-        local colorVal = map(p.casesByDay[1], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
+        local colorVal = map(p.deathsByDay[1], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        local caseVal = map(p.casesByDay[1], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
+        p.shape.width = caseVal
+        p.shape.height = caseVal
+        p.ss.text = "Cases: "..p.casesByDay[1].."\nDeaths: "..p.deathsByDay[1]
       elseif (event.value > 98) then
-        local colorVal = map(p.casesByDay[98], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
+        local colorVal = map(p.deathsByDay[98], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        local caseVal = map(p.casesByDay[98], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
+        p.shape.width = caseVal
+        p.shape.height = caseVal
+        p.ss.text = "Cases: "..p.casesByDay[98].."\nDeaths: "..p.deathsByDay[98]
       else
-        local colorVal = map(p.casesByDay[event.value], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
+        local colorVal = map(p.deathsByDay[event.value], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        local caseVal = map(p.casesByDay[event.value], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
+        p.shape.width = caseVal
+        p.shape.height = caseVal
+        p.ss.text = "Cases: "..p.casesByDay[event.value].."\nDeaths: "..p.deathsByDay[event.value]
       end
     end
   end
-end
-
-local function compare( a, b )
-    return a < b
 end
 
 function scene:create(event)
@@ -120,14 +143,14 @@ function scene:create(event)
   stateObjTable = params.sot
   dateList = params.dat
   maxCasesTbl = params.mc
-  table.sort(maxCasesTbl, compare)
+  table.sort(maxCasesTbl)
   maxDeathsTbl = params.md
-  table.sort(maxDeathsTbl, compare)
+  table.sort(maxDeathsTbl)
   display.setDefault("background", 208/255, 200/255, 189/255)
   dateSlider = widget.newSlider(
     {
         id = "date",
-        x = 150,
+        x = 225,
         y = display.contentCenterY,
         height = 400,
         value = 0,
@@ -143,11 +166,22 @@ function scene:create(event)
     {
         text = dateList[1],
         fontSize = 50,
-        x = dateSlider.x + 150,
-        y = dateSlider.y + 200,
+        x = dateSlider.x,
+        y = dateSlider.y + 500,
     }
   )
+  dateBox:setFillColor(0, 0, 0)
   sceneGroup:insert(dateBox)
+  dateLabel = display.newText(
+    {
+      text = "Date",
+      fontSize = 50,
+      x = dateSlider.x,
+      y = dateSlider.y - 75,
+    }
+  )
+  dateLabel:setFillColor(0, 0, 0)
+  sceneGroup:insert(dateLabel)
   for i=1,8 do
     for j=1,12 do
       if (stateGrid[i][j] == 1) then
@@ -155,7 +189,17 @@ function scene:create(event)
           if (s.name == stateList[stateCounter]) then
             s.xPos = gridX
             s.yPos = gridY
-            local colorVal = map(s.casesByDay[1], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
+            local ab = display.newText(
+              {
+                text = stateAbbr[stateCounter],
+                fontSize = 25,
+                x = s.xPos,
+                y = s.yPos
+              }
+            )
+            ab:setFillColor(0, 1, 0)
+            s.abbr = ab
+            local colorVal = map(s.deathsByDay[1], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
             local r, g, b, a = HSL(0, colorVal, 110, 1)
             s.r = r
             s.g = g
@@ -163,6 +207,7 @@ function scene:create(event)
             s:spawn()
             s:touch(sceneGroup, stateObjTable, dateList)
             sceneGroup:insert(s.shape)
+            sceneGroup:insert(s.abbr)
             gridX = gridX + 125
             stateCounter = stateCounter + 1
             break

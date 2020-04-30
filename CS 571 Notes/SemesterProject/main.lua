@@ -7,7 +7,6 @@ Purpose: This program displays US COVID-19 data ranging from 1/22/20 to 4/28/20
 ]]
 local csv = require("csv")
 local c = csv.open(system.pathForFile( "confirmed.csv", system.ResourceDirectory ))
-local d = csv.open(system.pathForFile( "deaths.csv", system.ResourceDirectory ))
 local State = require ("state")
 local composer = require( "composer" )
 
@@ -33,7 +32,7 @@ for fields in c:lines() do
     if (i == 7 and ignoreFirstLine ~= 0) then
       if (v ~= stateName) then
         stateName = v
-        local state = stateSquare:new({name = stateName, counties = {}, casesByDay = {}})
+        local state = stateSquare:new({name = stateName, counties = {}, isSelected = false, casesByDay = {}, deathsByDay = {}})
         table.insert(stateObjTable, state)
       end
     end
@@ -75,6 +74,8 @@ for fields in c:lines() do
   ignoreFirstLine = ignoreFirstLine + 1
 end
 
+local d = csv.open(system.pathForFile( "deaths.csv", system.ResourceDirectory ))
+
 ignoreFirstLine = 0
 for fields in d:lines() do
   for i, v in ipairs( fields ) do
@@ -86,16 +87,14 @@ for fields in d:lines() do
           stateName = s.name
         end
       end
-    elseif (i >= 12 and i <= 109 and ignoreFirstLine ~= 0) then
-      deathArray[i-11] = v
-      if(i == 109) then
+    elseif (i >= 13 and i <= 110 and ignoreFirstLine ~= 0) then
+      deathArray[i-12] = v
+      if(i == 110) then
         for n, s in ipairs( stateObjTable ) do
           if (stateName == s.name) then
             for p, t in ipairs(s.counties) do
               if (countyName == t.name) then
-                for i=1,#deathArray do
-                  t.deaths[i] = deathArray[i]
-                end
+                t.deaths = deathArray
                 deathArray = {}
               end
             end
@@ -119,6 +118,7 @@ for _, a in ipairs(stateObjTable) do
 end
 
 local sum = 0
+temp = 0
 for _, a in ipairs(stateObjTable) do
   for i=1,98 do
     for j=1,#a.counties do
@@ -126,16 +126,6 @@ for _, a in ipairs(stateObjTable) do
     end
     a.deathsByDay[i] = sum
     sum = 0
-  end
-end
-
-for _, s in ipairs(stateObjTable) do
-  if (s.name == "Alabama") then
-    for a, b in ipairs(s.counties) do
-      for i, j in ipairs(b.deaths) do
-        print(j)
-      end
-    end
   end
 end
 
