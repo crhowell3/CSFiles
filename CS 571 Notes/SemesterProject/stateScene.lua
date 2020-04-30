@@ -298,7 +298,7 @@ function scene:create(event)
   for _, s in ipairs(stateObjTable) do
     if (s.name == sel) then
       cas = s.casesByDay[dS]
-      dea = s.casesByDay[dS]
+      dea = s.deathsByDay[dS]
     end
   end
   totalCases = display.newText(
