@@ -7,6 +7,7 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 local State = require ("state")
 local widget = require( "widget" )
+local physics = require( "physics" )
 local gridX = 500
 local gridY = 100
 --This is my solution for mapping the states... have a 2D binary table that represents the locations on the screen, and then have
@@ -54,6 +55,7 @@ function HSL(h, s, l, a)
   return (r+m),(g+m),(b+m),a
 end
 
+physics.start()
 nameText = display.newText(
   {
     text = "Tap on a state!",
@@ -114,8 +116,15 @@ function State:touch(g, tbl, list)
       end
     end
   end
+  local function excessiveCases(event)
+    physics.addBody( event.target.shape, "dynamic" )
+    print("test")
+  end
+  self.shape:addEventListener("excessive", excessiveCases);
   self.shape:addEventListener("tap", onStateTouch);
 end
+
+local event = { name = "excessive"}
 
 local function sliderListener(event)
   if (event.target.id == "date") then
@@ -132,6 +141,9 @@ local function sliderListener(event)
         local colorVal = map(p.deathsByDay[1], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        if(p.casesByDay[1] >= 100000) then
+          p.shape:dispatchEvent(event)
+        end
         local caseVal = map(p.casesByDay[1], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
         p.shape.width = caseVal
         p.shape.height = caseVal
@@ -140,6 +152,9 @@ local function sliderListener(event)
         local colorVal = map(p.deathsByDay[98], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        if(p.casesByDay[98] >= 100000) then
+          p.shape:dispatchEvent(event)
+        end
         local caseVal = map(p.casesByDay[98], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
         p.shape.width = caseVal
         p.shape.height = caseVal
@@ -148,6 +163,9 @@ local function sliderListener(event)
         local colorVal = map(p.deathsByDay[event.value], 0, maxDeathsTbl[#maxDeathsTbl], 0, 255)
         local r, g, b, a = HSL(0, colorVal, 110, 1)
         p.shape:setFillColor(r,g,b)
+        if(p.casesByDay[event.value] >= 100000) then
+          p.shape:dispatchEvent(event)
+        end
         local caseVal = map(p.casesByDay[event.value], 0, maxCasesTbl[#maxCasesTbl], 75, 125)
         p.shape.width = caseVal
         p.shape.height = caseVal
@@ -202,6 +220,8 @@ function scene:create(event)
   )
   dateLabel:setFillColor(0, 0, 0)
   sceneGroup:insert(dateLabel)
+  sceneGroup:insert(stateStats)
+  sceneGroup:insert(nameText)
   for i=1,8 do
     for j=1,12 do
       if (stateGrid[i][j] == 1) then
@@ -269,6 +289,7 @@ function scene:create(event)
       y = 230
     }
   )
+
   countrySubtitle_2:setFillColor(0, 0, 0)
   sceneGroup:insert(countrySubtitle_2)
   stateInfoOutline = display.newRect( display.contentWidth - 350, display.contentHeight - 280, 550, 400 )

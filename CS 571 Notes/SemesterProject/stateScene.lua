@@ -5,11 +5,14 @@ NOTE: I cannot show recoveries for either the states or the counties because tha
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require( "widget" )
+local physics = require( "physics" )
 
+--Mapping function for moving values from one range to another
 local function map(value, istart, istop, ostart, ostop)
   return (ostart + (ostop - ostart) * ((value - istart) / (istop - istart)))
 end
 
+--Click event for the button to transition back to the countryScene overview
 local function onClick(event)
   local options = {
     effect = "slideDown",
@@ -24,6 +27,7 @@ local function onClick(event)
   composer.gotoScene("countryScene", options)
 end
 
+--The event handler for the slider listener, which handles changing the data on the screen in accordance with the slider value and the current state's fields
 local function sliderListener(event)
   if (event.target.id == "date") then
     if (event.value > 98) then
@@ -40,6 +44,7 @@ local function sliderListener(event)
               casesBar.height = vertScale
               vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
               deathsBar.height = vertScale_2
+              totalCases.text = "Cases: "..p.casesByDay[dS].."\nDeaths: "..p.deathsByDay[dS]
             end
           end
         end
@@ -58,6 +63,7 @@ local function sliderListener(event)
               casesBar.height = vertScale
               vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
               deathsBar.height = vertScale_2
+              totalCases.text = "Cases: "..p.casesByDay[dS].."\nDeaths: "..p.deathsByDay[dS]
             end
           end
         end
@@ -76,6 +82,7 @@ local function sliderListener(event)
               casesBar.height = vertScale
               vertScale_2 = map(p.deathsByDay[dS], 0, p.deathsByDay[98], 0, 450 * (p.deathsByDay[98] / p.casesByDay[98]))
               deathsBar.height = vertScale_2
+              totalCases.text = "Cases: "..p.casesByDay[dS].."\nDeaths: "..p.deathsByDay[dS]
             end
           end
         end
@@ -84,6 +91,7 @@ local function sliderListener(event)
   end
 end
 
+--This handler is for the search box to actively update the county list when searching for a county
 comparisonString = nil
 local function textListener(event)
   local message = ""
@@ -106,6 +114,7 @@ local function textListener(event)
   end
 end
 
+--Function for initializing all the objects in the scene
 function scene:create(event)
   local sceneGroup = self.view
   local params = event.params
@@ -256,6 +265,59 @@ function scene:create(event)
   deathsBar:setFillColor(1, 0, 0)
   deathsBar.anchorY = 1.0
 
+  barChart_C = display.newText(
+    {
+      text = "Cases",
+      fontSize = 25,
+      x = casesBar.x,
+      y = casesBar.y + 25
+    }
+  )
+  barChart_C:setFillColor(0, 0, 0)
+
+  barChart_D = display.newText(
+    {
+      text = "Deaths",
+      fontSize = 25,
+      x = deathsBar.x,
+      y = deathsBar.y + 25
+    }
+  )
+  barChart_D:setFillColor(0, 0, 0)
+
+  totalStats = display.newText(
+    {
+      text = "State-Level Stats",
+      fontSize = 50,
+      x = display.contentWidth - 415,
+      y = display.contentCenterY - 100
+    }
+  )
+  totalStats:setFillColor(0, 0, 0)
+
+  for _, s in ipairs(stateObjTable) do
+    if (s.name == sel) then
+      cas = s.casesByDay[dS]
+      dea = s.casesByDay[dS]
+    end
+  end
+  totalCases = display.newText(
+    {
+      text = "Cases: "..cas.."\nDeaths: "..dea,
+      fontSize = 50,
+      x = totalStats.x - 193,
+      y = totalStats.y + 25
+    }
+  )
+  totalCases:setFillColor(0, 0, 0)
+  totalCases.anchorX = 0.0
+  totalCases.anchorY = 0.0
+
+--Add everything to the sceneGroup so that it can all be deleted whenever the scene transitions back to the overview
+  sceneGroup:insert(totalStats)
+  sceneGroup:insert(totalCases)
+  sceneGroup:insert(barChart_C)
+  sceneGroup:insert(barChart_D)
   sceneGroup:insert(casesBar)
   sceneGroup:insert(deathsBar)
   sceneGroup:insert(countyLabel)
@@ -268,11 +330,13 @@ function scene:create(event)
   sceneGroup:insert(defaultBox)
 end
 
+--handles showing events on the screen
 function scene:show(event)
   composer.removeScene("countryScene")
   local sceneGroup = self.view
 end
 
+--hides objects in the sceneGroup before calling "destroy"
 function scene:hide(event)
   local sceneGroup = self.view
   local phase = event.phase
@@ -281,6 +345,7 @@ function scene:hide(event)
   end
 end
 
+--removes all objects in the sceneGroup so that they won't carry over to the next scene
 function scene:destroy(event)
   local sceneGroup = self.view
 end
