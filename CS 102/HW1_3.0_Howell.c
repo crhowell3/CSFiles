@@ -15,6 +15,6 @@ int main()
     printf("%6d\n", num_two);
     printf("%10d\n", num_three);
     printf("%7d%7d%7d\n", num_one, num_two, num_three);
-    printf("%d %d %d\n", num_one, num_two, num_three);
+    printf("%-4d%-5d%-6d\n", num_one, num_two, num_three);
     return 0;
 }
