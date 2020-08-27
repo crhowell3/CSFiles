@@ -72,6 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\OpenGLwrappers\glew-1.10.0-win32\glew-1.10.0\include;C:\OpenGLwrappers\freeglut-MSVC-2.8.1-1.mp\freeglut\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenGLwrappers\freeglut-MSVC-2.8.1-1.mp\freeglut\lib;C:\OpenGLwrappers\glew-1.10.0-win32\glew-1.10.0\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
