@@ -1,7 +1,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-void drawScene(void) {
+void drawScene(void)
+{
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(0.0, 0.0, 0.0);
@@ -16,11 +17,13 @@ void drawScene(void) {
 	glFlush();
 }
 
-void setup(void) {
+void setup(void)
+{
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 }
 
-void resize(int w, int h) {
+void resize(int w, int h)
+{
 	glViewport(0, 0, w, h);
 
 	glMatrixMode(GL_PROJECTION);
@@ -31,7 +34,8 @@ void resize(int w, int h) {
 	glLoadIdentity();
 }
 
-void keyInput(unsigned char key, int x, int y) {
+void keyInput(unsigned char key, int x, int y)
+{
 	switch (key)
 	{
 	case 27:
@@ -42,7 +46,8 @@ void keyInput(unsigned char key, int x, int y) {
 	}
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
 	glutInit(&argc, argv);
 
 	glutInitContextVersion(4, 0);
