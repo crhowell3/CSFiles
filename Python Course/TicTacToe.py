@@ -1,4 +1,3 @@
-from IPython.display import clear_output
 import random
 
 
@@ -12,14 +11,21 @@ def display_board(board):
 
 
 def player_input():
+    '''
+    OUTPUT = (Player 1 marker, Player 2 marker)
+    '''
     p_input = "#"
     while not p_input == 'X' and not p_input == 'O':
-        p_input = input("Do you want to be X or O?: ")
+        p_input = input("Player 1: Do you want to be X or O?: ").upper()
+
+    if p_input == 'X':
+        return ('X', 'O')
+    else:
+        return ('O', 'X')
 
 
 def place_marker(board, marker, position):
     board[position] = marker
-    clear_output()
     display_board(board)
 
 
@@ -35,33 +41,97 @@ def win_check(board, mark):
 
 
 def choose_first():
-
-    pass
+    result = random.randint(1, 2)
+    if result == 1:
+        return "Player 1"
+    else:
+        return "Player 2"
 
 
 def space_check(board, position):
-
-    pass
+    return board[position] == ' '
 
 
 def full_board_check(board):
+    for i in range(1, 10):
+        if space_check(board, i):
+            return False
 
-    pass
+    # BOARD IS FULL IF WE RETURN TRUE
+    return True
 
 
 def player_choice(board):
 
-    pass
+    position = 0
+
+    while position not in [1, 2, 3, 4, 5, 6, 7, 8, 9] or not space_check(board, position):
+        position = int(input('Choose a position: (1-9) '))
+
+    return position
 
 
 def replay():
 
-    pass
+    choice = input("Play again? Enter Yes or No: ")
+
+    return choice == 'Yes'
 
 
 def main():
-    display_board(board)
-    player_input()
+    # WHILE LOOP TO KEEP RUNNING THE GAME
+    print('Welcome to Tic Tac Toe!')
+
+    while True:
+
+        player1, player2 = player_input()
+        turn = choose_first()
+        print(turn + ' will go first')
+
+        play_game = input('Ready to play? y or n? ')
+
+        if play_game == 'y':
+            game_on = True
+        else:
+            game_on = False
+
+        while game_on:
+
+            if turn == 'Player 1':
+
+                position = player_choice(board)
+                place_marker(board, player1, position)
+
+                if win_check(board, player1):
+                    display_board(board)
+                    print('PLAYER 1 HAS WON!!')
+                    game_on = False
+                else:
+                    if full_board_check(board):
+                        display_board(board)
+                        print("TIE GAME!")
+                        break
+                    else:
+                        turn = 'Player 2'
+            else:
+
+                position = player_choice(board)
+                place_marker(board, player2, position)
+
+                if win_check(board, player2):
+                    display_board(board)
+                    print('PLAYER 1 HAS WON!!')
+                    game_on = False
+                else:
+                    if full_board_check(board):
+                        display_board(board)
+                        print("TIE GAME!")
+                        break
+                    else:
+                        turn = 'Player 1'
+
+        if not replay():
+            break
 
 
 if __name__ == "__main__":
