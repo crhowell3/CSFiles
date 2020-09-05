@@ -1,16 +1,15 @@
 from deck import Deck
 from player import Player
 
-player_one = Player('One')
-player_two = Player('Two')
-
-new_deck = Deck()
-new_deck.shuffle()
-
-round_num = 0
-
 
 def main():
+    player_one = Player('One')
+    player_two = Player('Two')
+
+    new_deck = Deck()
+    new_deck.shuffle()
+
+    round_num = 0
     game_on = True
     for x in range(26):
         player_one.add_cards(new_deck.deal_one())
@@ -65,6 +64,11 @@ def main():
                     print("Player One Wins!")
                     game_on = False
                     break
+
+                else:
+                    for num in range(5):
+                        player_one_cards.append(player_one.remove_one())
+                        player_two_cards.append(player_two.remove_one())
 
 
 if __name__ == "__main__":
