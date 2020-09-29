@@ -58,7 +58,7 @@ public class Vigenere {
             cipher_text.append((char) (mod));
         }
         // Print out the cipher text to the user
-        System.out.print("Your encrypted text is: " + cipher_text.toString().toLowerCase());
+        System.out.println("Your encrypted text is: " + cipher_text.toString().toLowerCase());
         // Destruct the scanner object after use
         scan.close();
     }
