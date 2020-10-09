@@ -46,7 +46,7 @@ int main()
         {
             printf("That's slightly respectable!\n");
         }
-        else
+        else if (sum >= 0)
         {
             printf("A value of %f is low!\n", sum);
         }
