@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="CipherCrack" />
+      <artifact name="Vigenere" />
+    </artifacts-to-build>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e3e18bdd-67a9-4ec8-9e9e-39406c5a1eec" name="Default Changelist" comment="Added Vigenere cracking code">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/CipherCrack.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Vigenere.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/manifests/ciphercrack/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/manifests/vigenere/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CS102/HW4/HW4_Howell.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../CS102/HW4/HW4_Howell.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS485/CipherCrack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CS485/Vigenere.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CipherCrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CipherCrack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vigenere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vigenere.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1hoBxuvPtdtug9lJroB7vt2zXx9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15429688" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\camer\repos\CSFiles\CS485\src\resources" />
+      <recent name="C:\Users\camer\repos\CSFiles\CS485\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.CipherCrack">
+    <configuration name="CipherCrack" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CipherCrack" />
+      <module name="CS485" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Test" />
+      <module name="CS485" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Vigenere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Vigenere" />
+      <module name="CS485" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.CipherCrack" />
+      <item itemvalue="Application.Test" />
+      <item itemvalue="Application.Vigenere" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.CipherCrack" />
+        <item itemvalue="Application.Vigenere" />
+        <item itemvalue="Application.Test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e3e18bdd-67a9-4ec8-9e9e-39406c5a1eec" name="Default Changelist" comment="" />
+      <created>1600667819871</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600667819871</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="740" y="336" key="#BuildArtifactsBeforeRunChooser" timestamp="1601263535161">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="336" key="#BuildArtifactsBeforeRunChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1601263535161" />
+    <state x="414" y="174" width="1092" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601265442286">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="174" width="1092" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601265442286" />
+    <state x="693" y="358" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1601264016836">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="693" y="358" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601264016836" />
+    <state x="720" y="323" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1601264615495">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="720" y="323" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601264615495" />
+    <state x="770" y="275" key="FileChooserDialogImpl" timestamp="1601264919098">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="770" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1601264919098" />
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom" timestamp="1601266381544">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601266381544" />
+    <state width="1877" height="261" key="GridCell.Tab.0.center" timestamp="1601266381544">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601266381544" />
+    <state width="1877" height="261" key="GridCell.Tab.0.left" timestamp="1601266381544">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601266381544" />
+    <state width="1877" height="261" key="GridCell.Tab.0.right" timestamp="1601266381544">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601266381544" />
+    <state x="540" y="254" key="IDE.errors.dialog" timestamp="1600716226310">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="540" y="254" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600716226310" />
+    <state x="470" y="108" key="SettingsEditor" timestamp="1601264864586">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="470" y="108" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1601264864586" />
+    <state x="664" y="408" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1600719711123">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="664" y="408" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1040@0.0.1920.1040" timestamp="1600719711123" />
+    <state x="597" y="94" key="new project wizard" timestamp="1601264522231">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="597" y="94" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1601264522231" />
+  </component>
+</project>
