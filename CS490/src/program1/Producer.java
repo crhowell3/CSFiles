@@ -9,6 +9,11 @@ public class Producer extends Thread {
     Producer() {
     }
 
+    /**
+     * Accessor to allow Consumer to check completion of Producer thread
+     *
+     * @return the status of the producer thread
+     */
     public boolean getIsComplete() {
         return !isComplete;
     }
