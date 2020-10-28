@@ -32,23 +32,27 @@ void main()
         puts("Welcome to the Calculator App! Choose a function below\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Exponentiate\n6. Trigonometry\nPlease enter a selection: ");
         scanf("%d", &selection);
 
-        if (selection == 1)
+        switch (selection)
+        {
+        case 1:
         {
             puts("Enter the first number: ");
             scanf("%f", &a);
             puts("Enter the second number: ");
             scanf("%f", &b);
             result = add(a, b);
+            break;
         }
-        else if (selection == 2)
+        case 2:
         {
             puts("Enter the first number: ");
             scanf("%f", &a);
             puts("Enter the second number: ");
             scanf("%f", &b);
             result = sub(a, b);
+            break;
         }
-        else if (selection == 3)
+        case 3:
         {
             puts("Enter the first number: ");
             scanf("%f", &a);
@@ -57,36 +61,43 @@ void main()
             puts("Enter the third number: ");
             scanf("%f", &c);
             result = mult(a, b, c);
+            break;
         }
-        else if (selection == 4)
+        case 4:
         {
             puts("Enter the first number: ");
             scanf("%f", &a);
             puts("Enter the second number: ");
             scanf("%f", &b);
             result = div(a, b);
+            break;
         }
-        else if (selection == 5)
+        case 5:
         {
             puts("Enter the base: ");
             scanf("%f", &a);
             puts("Enter the exponent: ");
             scanf("%f", &b);
             result = power(a, b);
+            break;
         }
-        else if (selection == 6)
+        case 6:
         {
             puts("Enter theta: ");
             scanf("%f", &a);
             puts("1. sin(x)\n2. cos(x)\n3. tan(x)\nChoose a function:");
             scanf("%d", &func);
             result = trig(a, func);
+            break;
         }
-
+        default:
+        {
+            break;
+        }
+        }
         printf("The result is %.3f\n", result);
     }
 }
-
 /*
  * Function: add
  * -------------
