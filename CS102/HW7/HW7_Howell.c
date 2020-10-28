@@ -77,7 +77,7 @@ float sub()
 
 /*
  * Function: mult
- * -----------float
+ * -----------
  * computes the product of three numbers
  * 
  * returns: the product of three user-input numbers
