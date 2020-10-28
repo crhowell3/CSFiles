@@ -78,7 +78,7 @@ void main()
         {
             puts("Enter theta: ");
             scanf("%f", &a);
-            puts("Choose a function:\n1. sin(x)\n2. cos(x)\n3. tan(x)");
+            puts("1. sin(x)\n2. cos(x)\n3. tan(x)\nChoose a function:");
             scanf("%d", &func);
             result = trig(a, func);
         }
