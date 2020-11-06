@@ -44,8 +44,9 @@ public class Consumer extends Thread {
                 node process_node = Scheduler.min_heap.consumeNode();
                 Thread.sleep(process_node.getTime_ms());
                 this.total++;
-                System.out.println(this.tab + "Consumer " + this.num + " finished Process: " + process_node.getPid() +
-                        " pri: " + process_node.getPriority() + " at " + ZonedDateTime.now().toInstant().toEpochMilli());
+                System.out.println(
+                        this.tab + "Consumer " + this.num + " finished Process: " + process_node.getPid() + " pri: "
+                                + process_node.getPriority() + " at " + ZonedDateTime.now().toInstant().toEpochMilli());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
