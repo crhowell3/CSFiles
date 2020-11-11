@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Threading;
 
 namespace Program2
@@ -17,6 +18,10 @@ namespace Program2
         public static MinHeap min_heap = new MinHeap();
         public static bool isComplete;
         public static bool queuewatcherFinished = false;
+        public static bool consumer_1_finished = false;
+        public static bool consumer_2_finished = false;
+        private static readonly string tab_1 = "\t";
+        private static readonly string tab_2 = "\t\t";
 
         /// <summary>
         /// Main control method
@@ -24,21 +29,21 @@ namespace Program2
         /// <param name="args">default argument for main</param>
         static void Main(string[] args)
         {
-            var consumer1 = new Thread(Consumer);
-            consumer1.Start(1);
-            var consumer2 = new Thread(Consumer);
-            consumer2.Start(2);
-            var producer = new Thread(Producer);
+            var consumer1 = new Thread(() => Consumer(1, tab_1));
+            consumer1.Start();
+            var consumer2 = new Thread(() => Consumer(2, tab_2));
+            consumer2.Start();
+            var producer = new Thread(() => Producer());
             producer.Start();
 
-            while (isComplete)
+            while (!isComplete)
             {
                 Thread.Sleep(1000);
             }
             Console.WriteLine("Queuewatcher has started...");
             while (true)
             {
-                if (min_heap.GetSize() == 0 && )
+                if (min_heap.GetSize() == 0)
                 {
                     Console.WriteLine("Queuewatcher is exiting...");
                     queuewatcherFinished = true;
@@ -50,13 +55,22 @@ namespace Program2
             consumer1.Join();
             consumer2.Join();
             producer.Join();
-            Console.WriteLine("Main program exiting");
+            Console.WriteLine("Main program exiting...");
+            Console.WriteLine("Press any key to close...");
+            Console.ReadKey();
         }
 
-        private static void Consumer(object num)
+        /// <summary>
+        /// Method for the consumer thread to run through
+        /// Consumes processes in a synchronized manner to avoid deadlock or
+        /// other thread conflicts
+        /// </summary>
+        /// <param name="num">The id number of the consumer thread</param>
+        /// <param name="tab">The tab string for proper output spacing</param>
+        private static void Consumer(object num, object tab)
         {
             int total = 0;
-            Console.WriteLine("Consumer {0} is starting...", num); 
+            Console.WriteLine("{0}Consumer {1} is starting...", tab, num); 
             
             while (min_heap.GetSize() != 0 || !isComplete)
             {
@@ -64,7 +78,7 @@ namespace Program2
                 {
                     try
                     {
-                        Console.WriteLine("Consumer {0} is idle", num);
+                        Console.WriteLine("{0}Consumer {1} is idle", tab, num);
                         Thread.Sleep(1000);
                     }
                     catch (ThreadInterruptedException)
@@ -75,17 +89,17 @@ namespace Program2
                 }
                 try
                 {
-                    Node produce_node = min_heap.ConsumeNode();
-                    Thread.Sleep(produce_node.GetTimeMs());
+                    Node process_node = min_heap.ConsumeNode();
+                    Thread.Sleep(process_node.GetTimeMs());
                     total++;
-                    Console.WriteLine("Consumer {0}", num);
+                    Console.WriteLine("{0}Consumer {1} finished Process: {2} pri: {3} at {4}", tab, num, process_node.GetPid(), process_node.GetPriority(), DateTimeOffset.Now.ToUnixTimeMilliseconds());
                 }
                 catch (ThreadInterruptedException)
                 {
                     throw;
                 }
             }
-            Console.WriteLine("");
+            Console.WriteLine("{0}Consumer {1} is idle", tab, num);
             while (!queuewatcherFinished)
             {
                 try
@@ -97,9 +111,13 @@ namespace Program2
                     throw;
                 }
             }
-            Console.WriteLine("Consumer {0} exiting - completed processes...", num);
+            Console.WriteLine("{0}Consumer {1} exiting - completed {2} processes...", tab, num, total);
         }
 
+        /// <summary>
+        /// Method for the producer thread to run through
+        /// Creates Node objects and places them in the Min Heap
+        /// </summary>
         private static void Producer()
         {
             int id_counter = 1;
@@ -113,7 +131,7 @@ namespace Program2
                 {
                     try
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(2500);
                     } catch (ThreadInterruptedException)
                     {
                         throw;
